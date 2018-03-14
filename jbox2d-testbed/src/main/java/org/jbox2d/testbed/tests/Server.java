@@ -336,6 +336,7 @@ public class Server extends TestbedTest {
 	    	shot.getFixtureList().setUserData("shot");
 		    mSocket.emit("SS_createShot", msgShot);
 		    shots.put(shot,contIdShot);
+		    contIdShot++;
 		    shot.applyLinearImpulse(impulse, new Vec2(0,0));
 		    contIdAsteroid++;
 	    	
