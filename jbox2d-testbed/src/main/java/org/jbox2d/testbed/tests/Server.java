@@ -432,18 +432,32 @@ public class Server extends TestbedTest {
 	    };
 	    }
 	    
-	    private Emitter.Listener move;
-	    {   move = new Emitter.Listener() {
+	    private Emitter.Listener moveBot;
+	    {   moveBot = new Emitter.Listener() {
 	        public void call(final Object... args){
 	            JSONObject data = (JSONObject) args[0];
 	            try {
-	            	Integer id = 0;
-	                Integer moveSing = 0;
-	                id = data.getInt("id");
-	                moveSing = data.getInt("moveSing");
-	                System.out.println("Client:"+id+", moveSing:"+moveSing);
+	                Integer moveSing = data.getInt("moveSing");
+	                System.out.println("Client: 0, moveSing:"+moveSing);
 	                float vMov=3*moveSing;
 	                playerBottom.setLinearVelocity(new Vec2(vMov,0));
+	                
+	                
+	            } catch (JSONException e) {
+	                System.out.println("Error to receive message.");
+	            }
+	        }
+	    };
+	    }
+	    private Emitter.Listener moveTop;
+	    {   moveTop = new Emitter.Listener() {
+	        public void call(final Object... args){
+	            JSONObject data = (JSONObject) args[0];
+	            try {
+	                Integer moveSing = data.getInt("moveSing");
+	                System.out.println("Client: 1, moveSing:"+moveSing);
+	                float vMov=3*moveSing;
+	                playerTop.setLinearVelocity(new Vec2(vMov,0));  
 	            } catch (JSONException e) {
 	                System.out.println("Error to receive message.");
 	            }
