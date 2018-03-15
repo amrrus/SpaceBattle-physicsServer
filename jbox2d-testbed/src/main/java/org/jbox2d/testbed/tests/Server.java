@@ -100,10 +100,7 @@ public class Server extends TestbedTest {
 	      ground.createFixture(shape, 0.0f);
 	      ground.getFixtureList().setUserData("border");
 	      
-	      FixtureDef ffl = new FixtureDef();
-	      ffl.shape = shape;
-	      ffl.density = 1.0f;
-	      ffl.friction = 100f;
+
 	      shape.setAsEdge(new Vec2(-5.4f, 0f), new Vec2(-5.6f, 0f));
 	      fieldLimit.createFixture(shape, 0.0f);
 	      fieldLimit.getFixtureList().setUserData("fieldLimit");
