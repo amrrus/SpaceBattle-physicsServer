@@ -118,11 +118,12 @@ public class Server extends TestbedTest {
 	      
 	    // connection definition and events ON
 	      try {
-              mSocket = IO.socket("http://192.168.1.101:3000");
+              mSocket = IO.socket("http://0.0.0.0:3000");
           } catch (URISyntaxException e) {
               throw new RuntimeException(e);
           }
-	      mSocket.on("SR_move", move);
+	      mSocket.on("SR_moveBot", moveBot);
+	      mSocket.on("SR_moveTop", moveTop);
 	      mSocket.on("SR_reqConfig",requestConfig);
 	      mSocket.connect();
 	      
