@@ -46,7 +46,7 @@ public class Connection {
                 Integer moveSing = data.getInt("moveSing");
                 System.out.println("Client: 0, moveSing:"+moveSing);
                 float vMov=3*moveSing;
-                playerBottom.setLinearVelocity(new Vec2(vMov,0));
+                //playerBottom.setLinearVelocity(new Vec2(vMov,0));
                 
                 
             } catch (JSONException e) {
@@ -63,7 +63,7 @@ public class Connection {
                 Integer moveSing = data.getInt("moveSing");
                 System.out.println("Client: 1, moveSing:"+moveSing);
                 float vMov=3*moveSing;
-                playerTop.setLinearVelocity(new Vec2(vMov,0));  
+                //playerTop.setLinearVelocity(new Vec2(vMov,0));  
             } catch (JSONException e) {
                 System.out.println("Error to receive message.");
             }

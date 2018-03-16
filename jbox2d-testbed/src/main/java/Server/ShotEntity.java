@@ -13,19 +13,27 @@ public class ShotEntity {
 	private World world;
 	private Body shot;
 	
-	public ShotEntity(World world, BodyDef bd,CircleShape circle,FixtureDef fds,Vec2 pos) {
+	public ShotEntity(World world,Vec2 pos) {
 		  this.world=world;
-		  bd.type=BodyType.DYNAMIC;
-		  bd.position.set(pos);
-		  this.shot = world.createBody(bd);
 		  
+		  BodyDef bdd = new BodyDef();
+		  bdd.type = BodyType.DYNAMIC;
+		  bdd.position.set(pos);
+		  this.shot = world.createBody(bdd);
+		  
+		  CircleShape circle = new CircleShape();
 		  circle.m_radius=Constants.SHOT_RADIUS;
+		  
+		  FixtureDef fds = new FixtureDef();
 		  fds.shape = circle;
 		  fds.density = Constants.SHOT_DENSITY;
 		  fds.friction = 0f;
 		  this.shot.createFixture(fds);
-
 	      
+	}
+	
+	public void destroyBody() {
+		this.world.destroyBody(this.shot);
 	}
 
 }

@@ -7,15 +7,13 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
-import org.jbox2d.dynamics.joints.Joint;
 
-public class BottomPlayerEntity {
-
-	private Body bottomPlayerEntity;
+public class TopPlayerEntity {
+	
+	private Body topPLayerEntity;
 	private World world;
-	private Joint join;
 
-	public BottomPlayerEntity(World world, Body center) {
+	public TopPlayerEntity(World world, Body center) {
 
 		this.world = world;
 		CircleShape shape = new CircleShape();
@@ -27,16 +25,16 @@ public class BottomPlayerEntity {
 
 		BodyDef bdplayer = new BodyDef();
 		bdplayer.type = BodyType.DYNAMIC;
-		bdplayer.position.set(0, -Constants.RADIO_ROTATION_SHIP);
-		bottomPlayerEntity = this.world.createBody(bdplayer);
-		bottomPlayerEntity.createFixture(fd);
-		bottomPlayerEntity.getFixtureList().setUserData("playerBottom");
+		bdplayer.position.set(0, Constants.RADIO_ROTATION_SHIP);
+		topPLayerEntity = this.world.createBody(bdplayer);
+		topPLayerEntity.createFixture(fd);
+		topPLayerEntity.getFixtureList().setUserData("playerBottom");
 
 		DistanceJointDef distanceBotToCen = new DistanceJointDef();
-		distanceBotToCen.bodyA = this.bottomPlayerEntity;
+		distanceBotToCen.bodyA = this.topPLayerEntity;
 		distanceBotToCen.bodyB = center;
 		distanceBotToCen.length = Constants.RADIO_ROTATION_SHIP;
-		this.join = this.world.createJoint(distanceBotToCen);
+		this.world.createJoint(distanceBotToCen);
 
 	}
 	

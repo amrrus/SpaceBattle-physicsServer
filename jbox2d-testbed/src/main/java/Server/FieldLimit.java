@@ -7,23 +7,26 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
-public class FIeldLimit {
+public class FieldLimit {
 	
 	private Body fieldLimit;
 	private World world;
 	
-	public FIeldLimit(World world, BodyDef bd,PolygonShape poligon) {
+	public FieldLimit(World world) {
 		this.world=world;
+		BodyDef bd = new BodyDef();
 		bd.type=BodyType.STATIC;
 		fieldLimit = world.createBody(bd);
 		
 		float r = Constants.RADIO_ROTATION_SHIP;
-		poligon.setAsEdge(new Vec2(-r-0.1f, 0), new Vec2(-r+0.1f, 0));
-	    fieldLimit.createFixture(poligon, 0);
+		
+		PolygonShape polygon = new PolygonShape();
+		polygon.setAsEdge(new Vec2(-r-0.1f, 0), new Vec2(-r+0.1f, 0));
+	    fieldLimit.createFixture(polygon, 0);
 	    fieldLimit.getFixtureList().setUserData("fieldLimit");
 	    
-	    poligon.setAsEdge(new Vec2(r-0.1f, 0), new Vec2(r+0.1f, 0));
-	    fieldLimit.createFixture(poligon, 0.0f);
+	    polygon.setAsEdge(new Vec2(r-0.1f, 0), new Vec2(r+0.1f, 0));
+	    fieldLimit.createFixture(polygon, 0.0f);
 	    fieldLimit.getFixtureList().setUserData("fieldLimit");
 	}
 

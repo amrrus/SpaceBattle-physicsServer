@@ -64,6 +64,7 @@ import org.jbox2d.testbed.tests.VaryingRestitution;
 import org.jbox2d.testbed.tests.VerticalStack;
 import org.jbox2d.testbed.tests.Web;
 import org.jbox2d.testbed.tests.Server;
+import org.jbox2d.testbed.tests.Server2;
 
 /**
  * @author Daniel Murphy
@@ -133,5 +134,6 @@ public class TestList {
       argModel.addTest(new LiquidTest());
       argModel.addCategory("Simulated server");
       argModel.addTest(new Server());
+      argModel.addTest(new Server2());
   }
 }
