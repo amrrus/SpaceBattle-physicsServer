@@ -1,6 +1,7 @@
 package Server;
 
 import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -12,7 +13,8 @@ public class TopPlayerEntity {
 	
 	private Body topPLayerEntity;
 	private World world;
-
+	private Integer moveSing;
+	
 	public TopPlayerEntity(World world, Body center) {
 
 		this.world = world;
@@ -35,11 +37,39 @@ public class TopPlayerEntity {
 		distanceBotToCen.bodyB = center;
 		distanceBotToCen.length = Constants.RADIO_ROTATION_SHIP;
 		this.world.createJoint(distanceBotToCen);
-
+		this.moveSing = 0;
 	}
 	
-	public void move(float moveSing) {
-		
+	public void setMoveSing(Integer moveSing) {
+		this.moveSing = moveSing;
+		Vec2 radio = topPLayerEntity.getPosition();
+		Vec2 tang = new Vec2(-radio.y,radio.x);
+		tang.normalize();
+		Vec2 impulse = tang.mul(Constants.MOVE_VELOCITY* moveSing*(-1));
+		switch (moveSing) {
+			case -1:
+				this.topPLayerEntity.setLinearVelocity(impulse);
+				this.topPLayerEntity.setAngularVelocity(0);
+				break;
+			case 0:
+				this.topPLayerEntity.setLinearVelocity(new Vec2(0,0));
+				break;
+			case 1:
+				this.topPLayerEntity.setLinearVelocity(impulse);
+				this.topPLayerEntity.setAngularVelocity(0);
+				break;
+		}
 	}
+	public void updateMove() {
+		if (this.moveSing!=0) {
+			Vec2 radio = topPLayerEntity.getPosition();
+			Vec2 tang = new Vec2(-radio.y,radio.x);
+			tang.normalize();
+			Vec2 impulse = tang.mul(Constants.MOVE_VELOCITY* moveSing*(-1));
+			this.topPLayerEntity.setLinearVelocity(impulse);
+		}
+	}
+
+	
 
 }

@@ -29,6 +29,10 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class Server2 extends TestbedTest {
+    private BottomPlayerEntity botPlayer;
+    private TopPlayerEntity topPlayer;
+    private Integer cont;
+    
 	  private static final long BULLET_TAG = 1;
 	  Body m_bullet;
 	  
@@ -65,8 +69,8 @@ public class Server2 extends TestbedTest {
 	      WorldBorder wb = ef.createWorldBorder();	      
 	      FieldLimit fl = ef.createFieldLimit();
 	      
-	      BottomPlayerEntity botPLayer = ef.createBottomPlayer();
-	      TopPlayerEntity topPlayer = ef.createTopPlayer();
+	      botPlayer = ef.createBottomPlayer();
+	      topPlayer = ef.createTopPlayer();
 
 	      AsteroidEntity asteroid1 = ef.createAsteroid(.7f);
 	      
@@ -74,6 +78,7 @@ public class Server2 extends TestbedTest {
 	      asteroid2.applyLinearImpulse();
 
 	      ShotEntity shot = ef.createShot(new Vec2(-1,-1));
+	      cont = 0;
 	  }
 
 	 
@@ -110,6 +115,27 @@ public class Server2 extends TestbedTest {
 
 	  public void step(TestbedSettings settings){
 	    super.step(settings);
+	    cont++;
+
+
+	    
+	    if (cont == 200) {
+	    	topPlayer.setMoveSing(1);
+	    	System.out.println("Derecha");
+	    }
+	    
+	    if (cont == 500) {
+	    	topPlayer.setMoveSing(0);
+	    	System.out.println("quieto");
+	    }
+	    if (cont == 800) {
+	    	topPlayer.setMoveSing(-1);
+	    	System.out.println("Izquierda");
+	    }
+	    if (cont == 1200) {
+	    	topPlayer.setMoveSing(0);
+	    	System.out.println("quieto");
+	    }
 	    
 	    for (int i = 0; i < getPointCount(); ++i) {
 	        ContactPoint point = points[i];
@@ -117,8 +143,10 @@ public class Server2 extends TestbedTest {
 	        String b = (String)point.fixtureB.getUserData();
 	        System.out.println(a +" colisiona con "+b);
 	        
-	        
 	      }
+	    
+	    botPlayer.updateMove();
+	    topPlayer.updateMove();
 	  }
 
 	  /**
