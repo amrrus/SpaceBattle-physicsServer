@@ -28,9 +28,10 @@ public class BottomPlayerEntity {
 		BodyDef bdplayer = new BodyDef();
 		bdplayer.type = BodyType.DYNAMIC;
 		bdplayer.position.set(0, -Constants.RADIO_ROTATION_SHIP);
+		bdplayer.fixedRotation = true;
 		bottomPlayerEntity = this.world.createBody(bdplayer);
 		bottomPlayerEntity.createFixture(fd);
-		bottomPlayerEntity.getFixtureList().setUserData("playerBottom");
+		bottomPlayerEntity.getFixtureList().setUserData("bottomPlayer");
 
 		DistanceJointDef distanceBotToCen = new DistanceJointDef();
 		distanceBotToCen.bodyA = this.bottomPlayerEntity;
@@ -51,14 +52,12 @@ public class BottomPlayerEntity {
 		switch (moveSing) {
 		case -1:
 			this.bottomPlayerEntity.setLinearVelocity(impulse);
-			this.bottomPlayerEntity.setAngularVelocity(0);
 			break;
 		case 0:
 			this.bottomPlayerEntity.setLinearVelocity(new Vec2(0, 0));
 			break;
 		case 1:
 			this.bottomPlayerEntity.setLinearVelocity(impulse);
-			this.bottomPlayerEntity.setAngularVelocity(0);
 			break;
 		}
 	}

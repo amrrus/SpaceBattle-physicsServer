@@ -18,34 +18,22 @@ public class AsteroidEntity {
 	
 	
 	public AsteroidEntity(World world,float radius) {
-		  this.world=world;
-		  this.pos = new Vec2(0,0);
-		  this.impulse = new Vec2(0,0);
-		  BodyDef bdd = new BodyDef();
-		  bdd.type = BodyType.DYNAMIC;
-		  bdd.position = pos;
-		  this.asteroid = world.createBody(bdd);
-		  
-		  CircleShape circle = new CircleShape();
-		  circle.m_radius=radius;
-		  
-		  FixtureDef fds = new FixtureDef();
-		  fds.shape = circle;
-		  fds.density = Constants.ASTEROID_DENSITY;
-		  fds.friction = 0f;
-		  this.asteroid.createFixture(fds);
+		constructor(world,radius,new Vec2(0,0),new Vec2(0,0));
 	      
 	}
 	
-	
 	public AsteroidEntity(World world,float radius,Vec2 pos, Vec2 impulse) {
+		constructor(world,radius,pos,impulse);
+		      
+	}
+	private void constructor(World world,float radius,Vec2 pos, Vec2 impulse) {
 		  this.world=world;
 		  this.pos = pos;
 		  this.impulse = impulse;
-		  
 		  BodyDef bdd = new BodyDef();
 		  bdd.type = BodyType.DYNAMIC;
-		  bdd.position.set(pos);
+		  bdd.position = pos;
+		  bdd.fixedRotation = true;
 		  this.asteroid = world.createBody(bdd);
 		  
 		  CircleShape circle = new CircleShape();
@@ -56,6 +44,7 @@ public class AsteroidEntity {
 		  fds.density = Constants.ASTEROID_DENSITY;
 		  fds.friction = 0f;
 		  this.asteroid.createFixture(fds);
+		  this.asteroid.getFixtureList().setUserData("asteroid");
 	      
 	}
 	

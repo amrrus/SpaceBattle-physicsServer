@@ -28,9 +28,10 @@ public class TopPlayerEntity {
 		BodyDef bdplayer = new BodyDef();
 		bdplayer.type = BodyType.DYNAMIC;
 		bdplayer.position.set(0, Constants.RADIO_ROTATION_SHIP);
+		bdplayer.fixedRotation = true;
 		topPLayerEntity = this.world.createBody(bdplayer);
 		topPLayerEntity.createFixture(fd);
-		topPLayerEntity.getFixtureList().setUserData("playerBottom");
+		topPLayerEntity.getFixtureList().setUserData("topPlayer");
 
 		DistanceJointDef distanceBotToCen = new DistanceJointDef();
 		distanceBotToCen.bodyA = this.topPLayerEntity;
@@ -49,14 +50,12 @@ public class TopPlayerEntity {
 		switch (moveSing) {
 			case -1:
 				this.topPLayerEntity.setLinearVelocity(impulse);
-				this.topPLayerEntity.setAngularVelocity(0);
 				break;
 			case 0:
 				this.topPLayerEntity.setLinearVelocity(new Vec2(0,0));
 				break;
 			case 1:
 				this.topPLayerEntity.setLinearVelocity(impulse);
-				this.topPLayerEntity.setAngularVelocity(0);
 				break;
 		}
 	}

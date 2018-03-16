@@ -19,6 +19,7 @@ public class ShotEntity {
 		  BodyDef bdd = new BodyDef();
 		  bdd.type = BodyType.DYNAMIC;
 		  bdd.position.set(pos);
+		  bdd.fixedRotation = true;
 		  this.shot = world.createBody(bdd);
 		  
 		  CircleShape circle = new CircleShape();
@@ -29,6 +30,7 @@ public class ShotEntity {
 		  fds.density = Constants.SHOT_DENSITY;
 		  fds.friction = 0f;
 		  this.shot.createFixture(fds);
+		  this.shot.getFixtureList().setUserData("shot");
 	      
 	}
 	
