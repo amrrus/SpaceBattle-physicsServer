@@ -1,9 +1,7 @@
 package Server;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.common.Vec3;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -15,15 +13,11 @@ public class BottomPlayerEntity {
 
 	private Body bottomPlayerEntity;
 	private World world;
-	private Connection conn;
 	private Integer moveSing;
-	private Vec2 oyBot;
-	private Integer playerId;
 
-	public BottomPlayerEntity(World world, Body center, Connection conn) {
+	public BottomPlayerEntity(World world, Body center) {
 
 		this.world = world;
-		this.conn =  conn;
 		CircleShape shape = new CircleShape();
 		shape.m_radius = Constants.RADIO_SHIP;
 		FixtureDef fd = new FixtureDef();
@@ -46,8 +40,6 @@ public class BottomPlayerEntity {
 		this.world.createJoint(distanceBotToCen);
 		this.moveSing = 0;
 		this.bottomPlayerEntity.setLinearVelocity(new Vec2(0, 0));
-		this.oyBot=new Vec2(0,-1);
-		this.playerId=Constants.PLAYER_BOTTOM_ID;
 
 	}
 
@@ -57,38 +49,23 @@ public class BottomPlayerEntity {
 		Vec2 tang = new Vec2(-radio.y, radio.x);
 		tang.normalize();
 		Vec2 impulse = tang.mul(Constants.MOVE_VELOCITY * moveSing);
-		switch (moveSing) {
-		case -1:
-			this.bottomPlayerEntity.setLinearVelocity(impulse);
-			break;
-		case 0:
-			this.bottomPlayerEntity.setLinearVelocity(new Vec2(0, 0));
-			break;
-		case 1:
-			this.bottomPlayerEntity.setLinearVelocity(impulse);
-			break;
-		}
+		this.bottomPlayerEntity.setLinearVelocity(impulse);
+
 	}
 
 	public void updateMove() {
-		if (this.moveSing!=0) {
-			Vec2 radio = bottomPlayerEntity.getPosition();
-			Vec2 tang = new Vec2(-radio.y, radio.x);
-			tang.normalize();
-			Vec2 impulse = tang.mul(Constants.MOVE_VELOCITY * moveSing);
-			this.bottomPlayerEntity.setLinearVelocity(impulse);
-			conn.sendPlayerPos(this.playerId,printInfo());
-		}
+		Vec2 radio = bottomPlayerEntity.getPosition();
+		Vec2 tang = new Vec2(-radio.y, radio.x);
+		tang.normalize();
+		Vec2 impulse = tang.mul(Constants.MOVE_VELOCITY * moveSing);
+		this.bottomPlayerEntity.setLinearVelocity(impulse);
+		
+	}
+	public Vec2 getPosition() {
+		return this.bottomPlayerEntity.getPosition();
 	}
 	
-	public Vec3 printInfo() {
-		float alphaBot = Constants.angleRad(this.oyBot,this.bottomPlayerEntity.getPosition());
-		float cos = MathUtils.cos(alphaBot) * Constants.RADIO_SHIP;
-		float sen = MathUtils.sin(alphaBot) * Constants.RADIO_SHIP;
-		float y = (this.bottomPlayerEntity.getPosition().y-cos-sen);
-		float x = (this.bottomPlayerEntity.getPosition().x+ sen-cos);
-		float alpha = alphaBot * Constants.radiansToDegrees;
-		return new Vec3(x,y,alpha);
-	}
+	
+	
 
 }

@@ -18,6 +18,8 @@ public class EntityFactory {
 	private Body centerField;
 	private Integer idShot;
 	private Integer idAsteroid;
+	private BottomPlayerEntity botPlayer;
+	private TopPlayerEntity topPlayer;
 	private Connection conn;
 
 	public EntityFactory(World world) {
@@ -26,32 +28,32 @@ public class EntityFactory {
 		this.shots = new HashMap<ShotEntity, Integer>();
 		this.idAsteroid = 0;
 		this.idShot = 0;
+		this.conn = new Connection();
 		BodyDef center = new BodyDef();
 		center.type = BodyType.STATIC;
 		center.position.set(0, 0);
 		centerField = this.world.createBody(center);
-		conn = new Connection();
+		createWorldBorder();
+		createFieldLimit();
 
 	}
 
-	public WorldBorder createWorldBorder() {
+	private WorldBorder createWorldBorder() {
 		return new WorldBorder(this.world);
 	}
 
-	public FieldLimit createFieldLimit() {
+	private  FieldLimit createFieldLimit() {
 		return new FieldLimit(this.world);
 	}
 
-	public TopPlayerEntity createTopPlayer() {
-		TopPlayerEntity t = new TopPlayerEntity(this.world, this.centerField, this.conn);
-		conn.setTopPlayer(t);
-		return t;
+	public TopPlayerEntity createTopPlayer(/* Connection conn */) {
+		this.topPlayer = new TopPlayerEntity(this.world, this.centerField);
+		return this.topPlayer;
 	}
 
-	public BottomPlayerEntity createBottomPlayer() {
-		BottomPlayerEntity b = new BottomPlayerEntity(this.world, this.centerField, this.conn);
-		conn.setBottomPlayer(b);
-		return b;
+	public BottomPlayerEntity createBottomPlayer(/*Connection conn*/) {
+		this.botPlayer =  new BottomPlayerEntity(this.world, this.centerField);
+		return this.botPlayer;
 	}
 
 	public AsteroidEntity createAsteroid(Float radius) {
@@ -80,8 +82,15 @@ public class EntityFactory {
 		}
 	}
 
-	public ShotEntity createShot(Vec2 position) {
-		ShotEntity s = new ShotEntity(world, position);
+	public ShotEntity createBottomShot() {
+		ShotEntity s = new ShotEntity(this.world, this.botPlayer.getPosition());
+		// send msg
+		this.shots.put(s, this.idShot);
+		this.idShot++;
+		return s;
+	}
+	public ShotEntity createTopShot() {
+		ShotEntity s = new ShotEntity(world, this.topPlayer.getPosition());
 		// send msg
 		this.shots.put(s, this.idShot);
 		this.idShot++;
@@ -94,7 +103,6 @@ public class EntityFactory {
 			// send msg
 			this.shots.remove(shot);
 			shot.destroyBody();
-			// optimization required
 		}
 	}
 

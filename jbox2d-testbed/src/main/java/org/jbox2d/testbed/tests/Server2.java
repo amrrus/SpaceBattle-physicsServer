@@ -66,18 +66,10 @@ public class Server2 extends TestbedTest {
 	      m_bullet = null;
 	      
 	      EntityFactory ef = new EntityFactory(getWorld());
-	      WorldBorder wb = ef.createWorldBorder();	      
-	      FieldLimit fl = ef.createFieldLimit();
 	      
 	      botPlayer = ef.createBottomPlayer();
 	      topPlayer = ef.createTopPlayer();
 
-	      AsteroidEntity asteroid1 = ef.createAsteroid(.7f);
-	      
-	      AsteroidEntity asteroid2 = ef .createAsteroid(.5f, new Vec2(1, 1),new Vec2(1,1));
-	      asteroid2.applyLinearImpulse();
-
-	      ShotEntity shot = ef.createShot(new Vec2(-1,-1));
 	      cont = 0;
 	  }
 
@@ -141,7 +133,7 @@ public class Server2 extends TestbedTest {
 	        ContactPoint point = points[i];
 	        String a = (String)point.fixtureA.getUserData();
 	        String b = (String)point.fixtureB.getUserData();
-	        //System.out.println(a +" colisiona con "+b);
+	        System.out.println(a +" colisiona con "+b);
 	        
 	      }
 	    
