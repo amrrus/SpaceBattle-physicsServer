@@ -52,7 +52,7 @@ public class BottomPlayerEntity {
 	}
 
 	public void setMoveSing(Integer moveSing) {
-		this.moveSing = moveSing;
+		this.moveSing = new Integer(moveSing);
 		Vec2 radio = bottomPlayerEntity.getPosition();
 		Vec2 tang = new Vec2(-radio.y, radio.x);
 		tang.normalize();
@@ -68,8 +68,7 @@ public class BottomPlayerEntity {
 			tang.normalize();
 			Vec2 impulse = tang.mul(Constants.MOVE_VELOCITY * moveSing);
 			this.bottomPlayerEntity.setLinearVelocity(impulse);
-			//conn.sendPlayerPos(this.playerId,printPlayer());
-			System.out.println(positionShot());
+			conn.sendPlayerPos(this.playerId,printPlayer());
 		}
 	}
 	

@@ -1,6 +1,8 @@
 package Server;
 
 import java.net.URISyntaxException;
+
+import org.jbox2d.common.Vec2;
 import org.jbox2d.common.Vec3;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +73,25 @@ public class Connection {
     	}
     	
     	
+    }
+    
+    public void sendCreateShot(Integer idShot,Integer clientId, Vec2 pos, Vec2 impulse) {
+    	JSONObject msg = new JSONObject();
+    	try {
+    		msg.put("idShot",idShot);
+            msg.put("idClient",clientId);
+            msg.put("x",pos.x);
+            msg.put("y",pos.y);
+            msg.put("vx",impulse.x);
+            msg.put("vy",impulse.y);
+    		mSocket.emit("SS_createShot", msg);
+    	}catch(JSONException e) {
+			e.printStackTrace();
+    	}
+    }
+    
+    public void sendDeleteShot(Integer id) {
+    	mSocket.emit("SS_deleteShot", id);
     }
 
 	public void setBottomPlayer(BottomPlayerEntity botPlayer) {

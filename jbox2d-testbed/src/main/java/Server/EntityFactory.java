@@ -22,7 +22,7 @@ public class EntityFactory {
 	private BottomPlayerEntity botPlayer;
 	private TopPlayerEntity topPlayer;
 
-	public EntityFactory(World world) {
+	public EntityFactory(World world, Connection conn) {
 		this.world = world;
 		this.asteroids = new HashMap<AsteroidEntity, Integer>();
 		this.shots = new HashMap<Body, Integer>();
@@ -32,7 +32,7 @@ public class EntityFactory {
 		center.type = BodyType.STATIC;
 		center.position.set(0, 0);
 		centerField = this.world.createBody(center);
-		conn = new Connection();
+		this.conn = conn;
 
 	}
 
@@ -76,7 +76,7 @@ public class EntityFactory {
 
 	public void deleteAsteroid(AsteroidEntity asteroid) {
 		if (this.asteroids.containsKey(asteroid)) {
-			Integer ids = this.asteroids.get(asteroid);
+			Integer ida = this.asteroids.get(asteroid);
 			// send msg
 			this.asteroids.remove(asteroid);
 			asteroid.destroyBody();
@@ -85,16 +85,13 @@ public class EntityFactory {
 	}
 
 	public void createBottomShot() {
-		Body s = createShot(world, botPlayer.positionShot());
-		// send msg
-		applyImpulseShot(s);
+		Body s = createShot(botPlayer.positionShot(),Constants.PLAYER_BOTTOM_ID);
 		this.shots.put(s, this.idShot);
 		this.idShot++;
 	}
+
 	public void createTopShot() {
-		Body s = createShot(world, topPlayer.positionShot());
-		// send msg
-		applyImpulseShot(s);
+		Body s = createShot(topPlayer.positionShot(), Constants.PLAYER_TOP_ID);
 		this.shots.put(s, this.idShot);
 		this.idShot++;
 	}
@@ -102,43 +99,37 @@ public class EntityFactory {
 	public void deleteShot(Body shot) {
 		if (shots.containsKey(shot)) {
 			Integer ids = shots.get(shot);
-			// send msg
+			this.conn.sendDeleteShot(ids);
 			this.shots.remove(shot);
-			world.destroyBody(shot);
+			this.world.destroyBody(shot);
 		}
 	}
-	
-	private Body createShot(World world,Vec2 pos) {
-		  this.world=world;
-		  
-		  BodyDef bdd = new BodyDef();
-		  bdd.type = BodyType.DYNAMIC;
-		  bdd.position.set(pos);
-		  bdd.fixedRotation = true;
-		  Body shot = world.createBody(bdd);
-		  
-		  CircleShape circle = new CircleShape();
-		  circle.m_radius=Constants.SHOT_RADIUS;
-		  
-		  FixtureDef fds = new FixtureDef();
-		  fds.shape = circle;
-		  fds.density = Constants.SHOT_DENSITY;
-		  fds.friction = 0f;
-		  shot.createFixture(fds);
-		  shot.getFixtureList().setUserData("shot");
-		  Vec2 impulse = pos.clone();
-		  impulse.normalize();
-		  impulse.mulLocal(-Constants.SHOT_SPEED);
-		  //this.shot.applyLinearImpulse(impulse, new Vec2(0,0));
-		  return shot;
-	      
-	}
-	private void applyImpulseShot(Body shot) {
-		Vec2 impulse = shot.getPosition().clone();
+
+	private Body createShot(Vec2 pos, Integer clientId) {
+		Vec2 impulse = pos.clone();
 		impulse.normalize();
 		impulse.mulLocal(-Constants.SHOT_SPEED);
+		this.conn.sendCreateShot(this.idShot,clientId,pos,impulse);
+		
+		BodyDef bdd = new BodyDef();
+		bdd.type = BodyType.DYNAMIC;
+		bdd.position.set(pos);
+		bdd.fixedRotation = true;
+		Body shot = this.world.createBody(bdd);
+
+		CircleShape circle = new CircleShape();
+		circle.m_radius = Constants.SHOT_RADIUS;
+
+		FixtureDef fds = new FixtureDef();
+		fds.shape = circle;
+		fds.density = Constants.SHOT_DENSITY;
+		fds.friction = 0f;
+		shot.createFixture(fds);
+		shot.getFixtureList().setUserData("shot");
 		shot.applyLinearImpulse(impulse, new Vec2(0,0));
+		return shot;
+
 	}
-	
+
 
 }

@@ -10,16 +10,17 @@ import org.jbox2d.testbed.framework.ContactPoint;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 import Server.BottomPlayerEntity;
+import Server.Connection;
 import Server.EntityFactory;
-import Server.FieldLimit;
 import Server.TopPlayerEntity;
-import Server.WorldBorder;
+
 
 public class Server2 extends TestbedTest {
     private BottomPlayerEntity botPlayer;
     private TopPlayerEntity topPlayer;
     private EntityFactory ef;
     private Integer cont;
+    private Connection conn;
     
 	  private static final long BULLET_TAG = 1;
 	  Body m_bullet;
@@ -41,7 +42,7 @@ public class Server2 extends TestbedTest {
 	  
 	  public boolean isSaveLoadEnabled() {
 	    return true;
-	  }
+	  }	
 	  
 	  public void initTest(boolean argDeserialized) {
 	    if(argDeserialized){
@@ -53,9 +54,14 @@ public class Server2 extends TestbedTest {
 	      // parameter init (to clic on interface)
 	      m_bullet = null;
 	      
-	      this.ef = new EntityFactory(getWorld());
-	      WorldBorder wb = ef.createWorldBorder();	      
-	      FieldLimit fl = ef.createFieldLimit();
+	      this.conn = new Connection();
+	      this.ef = new EntityFactory(getWorld(),this.conn);
+	      
+	      //getWorld().setContactListener(new GameContactListener(this.ef));
+	      
+	      
+	      ef.createWorldBorder();	      
+	      ef.createFieldLimit();
 	      
 	      botPlayer = ef.createBottomPlayer();
 	      topPlayer = ef.createTopPlayer();
@@ -153,8 +159,6 @@ public class Server2 extends TestbedTest {
 	  public String getTestName() {
 	    return "Server 2";
 	  }
-	  
-	  
-	  
+	  	  
 	  
 	}
