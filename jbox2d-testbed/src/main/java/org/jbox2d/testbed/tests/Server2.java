@@ -1,36 +1,24 @@
 package org.jbox2d.testbed.tests;
 
-import java.net.URISyntaxException;
-import java.util.HashMap;
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.testbed.framework.ContactPoint;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import Server.AsteroidEntity;
 import Server.BottomPlayerEntity;
 import Server.EntityFactory;
 import Server.FieldLimit;
-import Server.ShotEntity;
 import Server.TopPlayerEntity;
 import Server.WorldBorder;
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 public class Server2 extends TestbedTest {
     private BottomPlayerEntity botPlayer;
     private TopPlayerEntity topPlayer;
+    private EntityFactory ef;
     private Integer cont;
     
 	  private static final long BULLET_TAG = 1;
@@ -65,11 +53,19 @@ public class Server2 extends TestbedTest {
 	      // parameter init (to clic on interface)
 	      m_bullet = null;
 	      
-	      EntityFactory ef = new EntityFactory(getWorld());
+	      this.ef = new EntityFactory(getWorld());
+	      WorldBorder wb = ef.createWorldBorder();	      
+	      FieldLimit fl = ef.createFieldLimit();
 	      
 	      botPlayer = ef.createBottomPlayer();
 	      topPlayer = ef.createTopPlayer();
-
+//
+//	      AsteroidEntity asteroid1 = ef.createAsteroid(.7f);
+//	      
+//	      AsteroidEntity asteroid2 = ef .createAsteroid(.5f, new Vec2(1, 1),new Vec2(1,1));
+//	      asteroid2.applyLinearImpulse();
+//
+//	      ShotEntity shot = ef.createShot(new Vec2(-1,-1));
 	      cont = 0;
 	  }
 
@@ -112,20 +108,24 @@ public class Server2 extends TestbedTest {
 
 	    
 	    if (cont == 200) {
-	    	topPlayer.setMoveSing(1);
+	    	botPlayer.setMoveSing(1);
 	    	System.out.println("Derecha");
 	    }
 	    
 	    if (cont == 500) {
-	    	topPlayer.setMoveSing(0);
+	    	botPlayer.setMoveSing(0);
 	    	System.out.println("quieto");
 	    }
-	    if (cont == 800) {
-	    	topPlayer.setMoveSing(-1);
+	    if (cont %100==0){
+	    	//ef.createTopShot();
+	    	ef.createBottomShot();
+	    }
+	    if (cont == 700) {
+	    	botPlayer.setMoveSing(-1);
 	    	System.out.println("Izquierda");
 	    }
-	    if (cont == 1200) {
-	    	topPlayer.setMoveSing(0);
+	    if (cont == 1100) {
+	    	botPlayer.setMoveSing(0);
 	    	System.out.println("quieto");
 	    }
 	    
@@ -133,7 +133,12 @@ public class Server2 extends TestbedTest {
 	        ContactPoint point = points[i];
 	        String a = (String)point.fixtureA.getUserData();
 	        String b = (String)point.fixtureB.getUserData();
-	        System.out.println(a +" colisiona con "+b);
+	        //System.out.println(a +" colisiona con "+b);
+	        if (a.equals("shot")){
+	        	ef.deleteShot(point.fixtureA.getBody());
+	        }else if (b.equals("shot")){
+	        	ef.deleteShot(point.fixtureB.getBody());
+	        }
 	        
 	      }
 	    
