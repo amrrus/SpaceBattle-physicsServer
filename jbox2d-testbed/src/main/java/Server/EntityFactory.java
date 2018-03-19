@@ -18,6 +18,7 @@ public class EntityFactory {
 	private Body centerField;
 	private Integer idShot;
 	private Integer idAsteroid;
+	private Connection conn;
 
 	public EntityFactory(World world) {
 		this.world = world;
@@ -29,6 +30,7 @@ public class EntityFactory {
 		center.type = BodyType.STATIC;
 		center.position.set(0, 0);
 		centerField = this.world.createBody(center);
+		conn = new Connection();
 
 	}
 
@@ -40,12 +42,16 @@ public class EntityFactory {
 		return new FieldLimit(this.world);
 	}
 
-	public TopPlayerEntity createTopPlayer(/* Connection conn */) {
-		return new TopPlayerEntity(this.world, this.centerField);
+	public TopPlayerEntity createTopPlayer() {
+		TopPlayerEntity t = new TopPlayerEntity(this.world, this.centerField, this.conn);
+		conn.setTopPlayer(t);
+		return t;
 	}
 
-	public BottomPlayerEntity createBottomPlayer(/*Connection conn*/) {
-		return new BottomPlayerEntity(this.world, this.centerField);
+	public BottomPlayerEntity createBottomPlayer() {
+		BottomPlayerEntity b = new BottomPlayerEntity(this.world, this.centerField, this.conn);
+		conn.setBottomPlayer(b);
+		return b;
 	}
 
 	public AsteroidEntity createAsteroid(Float radius) {

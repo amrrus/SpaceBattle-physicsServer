@@ -141,7 +141,7 @@ public class Server2 extends TestbedTest {
 	        ContactPoint point = points[i];
 	        String a = (String)point.fixtureA.getUserData();
 	        String b = (String)point.fixtureB.getUserData();
-	        System.out.println(a +" colisiona con "+b);
+	        //System.out.println(a +" colisiona con "+b);
 	        
 	      }
 	    
