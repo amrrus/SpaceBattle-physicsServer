@@ -8,6 +8,7 @@ public class Constants {
     public static final float PIXELS_IN_METER = 90f;
 
     public static final float ASTEROID_DENSITY = 1f;
+    public static final float ASTEROID_FRICTION = 0f;
     
     public static final float SHOT_RADIUS = 0.1f;
     public static final float SHOT_DENSITY = 10f;

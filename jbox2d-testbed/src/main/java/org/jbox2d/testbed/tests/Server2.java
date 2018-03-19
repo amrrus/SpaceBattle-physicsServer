@@ -124,7 +124,7 @@ public class Server2 extends TestbedTest {
 	    }
 	    if (cont %100==0){
 	    	//ef.createTopShot();
-	    	ef.createBottomShot();
+	    	ef.createAsteroid(new Vec2(0,0), new Vec2(1,1), 0.4f);
 	    }
 	    if (cont == 700) {
 	    	botPlayer.setMoveSing(-1);
@@ -144,6 +144,12 @@ public class Server2 extends TestbedTest {
 	        	ef.deleteShot(point.fixtureA.getBody());
 	        }else if (b.equals("shot")){
 	        	ef.deleteShot(point.fixtureB.getBody());
+	        }
+	        
+	        if (a.equals("asteroid")){
+	        	ef.deleteAsteroid(point.fixtureA.getBody());
+	        }else if (b.equals("asteroid")){
+	        	ef.deleteAsteroid(point.fixtureB.getBody());
 	        }
 	        
 	      }

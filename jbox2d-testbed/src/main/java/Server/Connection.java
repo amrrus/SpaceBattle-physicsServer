@@ -74,6 +74,24 @@ public class Connection {
     	
     	
     }
+    public void sendCreateAsteroid(Integer id, Vec2 pos, Vec2 impulse, float radius) {
+    	JSONObject msg = new JSONObject();
+    	try {
+    		msg.put("id",id);
+            msg.put("x",pos.x);
+            msg.put("y",pos.y);
+            msg.put("vx",impulse.x);
+            msg.put("vy",impulse.y);
+            msg.put("radius",radius);
+    		mSocket.emit("SS_createAst", msg);
+    	}catch(JSONException e) {
+			e.printStackTrace();
+    	}
+    }
+    
+    public void sendDeleteAsteroid(Integer ida) {
+    	this.mSocket.emit("SS_deleteAst", ida);
+    }
     
     public void sendCreateShot(Integer idShot,Integer clientId, Vec2 pos, Vec2 impulse) {
     	JSONObject msg = new JSONObject();

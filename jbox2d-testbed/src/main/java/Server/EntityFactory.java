@@ -12,7 +12,7 @@ import org.jbox2d.dynamics.World;
 
 public class EntityFactory {
 
-	private HashMap<AsteroidEntity, Integer> asteroids;
+	private HashMap<Body, Integer> asteroids;
 	private HashMap<Body, Integer> shots;
 	private World world;
 	private Body centerField;
@@ -24,7 +24,7 @@ public class EntityFactory {
 
 	public EntityFactory(World world, Connection conn) {
 		this.world = world;
-		this.asteroids = new HashMap<AsteroidEntity, Integer>();
+		this.asteroids = new HashMap<Body, Integer>();
 		this.shots = new HashMap<Body, Integer>();
 		this.idAsteroid = 0;
 		this.idShot = 0;
@@ -57,41 +57,33 @@ public class EntityFactory {
 		this.botPlayer = b;
 		return b;
 	}
-
-	public AsteroidEntity createAsteroid(Float radius) {
-		AsteroidEntity a = new AsteroidEntity(this.world, radius);
-		// send msg
+	
+	
+	public Body createAsteroid(Vec2 pos, Vec2 impulse, Float radius) {
+		Body a = createAsteroidEntity(this.idAsteroid, pos, impulse,radius);
 		asteroids.put(a, this.idAsteroid);
-		idAsteroid++;
+		this.idAsteroid++;
 		return a;
 	}
 
-	public AsteroidEntity createAsteroid(Float radius, Vec2 pos, Vec2 impulse) {
-		AsteroidEntity a = new AsteroidEntity(this.world, radius, pos, impulse);
-		// send msg
-		asteroids.put(a, this.idAsteroid);
-		idAsteroid++;
-		return a;
-	}
-
-	public void deleteAsteroid(AsteroidEntity asteroid) {
+	public void deleteAsteroid(Body asteroid) {
 		if (this.asteroids.containsKey(asteroid)) {
 			Integer ida = this.asteroids.get(asteroid);
-			// send msg
+			this.conn.sendDeleteAsteroid(ida);
 			this.asteroids.remove(asteroid);
-			asteroid.destroyBody();
+			this.world.destroyBody(asteroid);
 
 		}
 	}
 
 	public void createBottomShot() {
-		Body s = createShot(botPlayer.positionShot(),Constants.PLAYER_BOTTOM_ID);
+		Body s = createShotEntity(botPlayer.positionShot(),Constants.PLAYER_BOTTOM_ID);
 		this.shots.put(s, this.idShot);
 		this.idShot++;
 	}
 
 	public void createTopShot() {
-		Body s = createShot(topPlayer.positionShot(), Constants.PLAYER_TOP_ID);
+		Body s = createShotEntity(topPlayer.positionShot(), Constants.PLAYER_TOP_ID);
 		this.shots.put(s, this.idShot);
 		this.idShot++;
 	}
@@ -105,7 +97,7 @@ public class EntityFactory {
 		}
 	}
 
-	private Body createShot(Vec2 pos, Integer clientId) {
+	private Body createShotEntity(Vec2 pos, Integer clientId) {
 		Vec2 impulse = pos.clone();
 		impulse.normalize();
 		impulse.mulLocal(-Constants.SHOT_SPEED);
@@ -129,6 +121,28 @@ public class EntityFactory {
 		shot.applyLinearImpulse(impulse, new Vec2(0,0));
 		return shot;
 
+	}
+	
+	private Body createAsteroidEntity(Integer id, Vec2 pos ,Vec2 impulse, float radius) {
+		this.conn.sendCreateAsteroid(id, pos, impulse, radius);
+		  BodyDef bdd = new BodyDef();
+		  bdd.type = BodyType.DYNAMIC;
+		  bdd.position = pos;
+		  bdd.fixedRotation = true;
+		  Body asteroid = world.createBody(bdd);
+		  
+		  CircleShape circle = new CircleShape();
+		  circle.m_radius=radius;
+		  
+		  FixtureDef fds = new FixtureDef();
+		  fds.shape = circle;
+		  fds.density = Constants.ASTEROID_DENSITY;
+		  fds.friction = Constants.ASTEROID_FRICTION;
+		  asteroid.createFixture(fds);
+		  asteroid.getFixtureList().setUserData("asteroid");
+		  
+		  asteroid.applyLinearImpulse(impulse, new Vec2(0,0));
+		  return asteroid;
 	}
 
 
