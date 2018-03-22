@@ -45,9 +45,9 @@ public class GameContactListener implements ContactListener {
         	this.shots.add(contact.getFixtureB().getBody());
         }
         
-        if (a.equals("asteroid")){
+        if (a.equals("asteroid") && !b.equals("shot")){
         	this.asteroids.add(contact.getFixtureA().getBody());
-        }else if (b.equals("asteroid")){
+        }else if (b.equals("asteroid") && !a.equals("shot")){
         	this.asteroids.add(contact.getFixtureB().getBody());
         }
 	}

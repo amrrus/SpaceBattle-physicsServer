@@ -93,5 +93,7 @@ public class AsteroidEntity {
 	public Body getAsteroid() {
 		return asteroid;
 	}
-	
+	public int hashCode() {
+		return this.asteroid.hashCode();
+	}
 }

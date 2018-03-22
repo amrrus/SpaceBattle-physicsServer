@@ -120,7 +120,7 @@ public class EntityFactory {
 		fds.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_ASTEROID | Constants.BIT_WORLD_BORDER;
 		shot.createFixture(fds);
 		shot.getFixtureList().setUserData("shot");
-		shot.applyLinearImpulse(impulse, new Vec2(0,0));
+		shot.setLinearVelocity(impulse);//applyLinearImpulse(impulse, new Vec2(0,0));
 		return shot;
 
 	}
@@ -146,7 +146,7 @@ public class EntityFactory {
 		  asteroid.createFixture(fds);
 		  asteroid.getFixtureList().setUserData("asteroid");
 		  
-		  asteroid.applyLinearImpulse(impulse, new Vec2(0,0));
+		  asteroid.setLinearVelocity(impulse);//applyLinearImpulse(impulse, new Vec2(0,0));
 		  return asteroid;
 	}
 

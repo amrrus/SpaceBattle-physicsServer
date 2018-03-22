@@ -7,11 +7,11 @@ public class Constants {
 
     public static final float PIXELS_IN_METER = 90f;
 
-    public static final float ASTEROID_DENSITY = 1f;
+    public static final float ASTEROID_DENSITY = 10000000000f;
     public static final float ASTEROID_FRICTION = 0f;
     
     public static final float SHOT_RADIUS = 0.1f;
-    public static final float SHOT_DENSITY = 10f;
+    public static final float SHOT_DENSITY = 5f;
     public static final float SHOT_SPEED = 4f;
     public static final float SHOT_FREE_SPACE = 0.0001f;
 
@@ -31,7 +31,7 @@ public class Constants {
     public static final Integer PLAYER_BOTTOM_ID = 0;
     public static final Integer PLAYER_TOP_ID = 1;
     
-    public static final String SERVER_URL = "http://192.168.1.101:3000";
+    public static final String SERVER_URL = "http://127.0.0.1:3000";
     
 	public static final float radiansToDegrees = 180f / MathUtils.PI;
 	

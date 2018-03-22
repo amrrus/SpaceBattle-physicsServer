@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -113,27 +114,16 @@ public class Server2 extends TestbedTest {
 	    super.step(settings);//process contacts
 	    cont++;
 	    
-	    if (cont == 200) {
-	    	botPlayer.setMoveSing(1);
-	    	System.out.println("Derecha");
-	    }
-	    
-	    if (cont == 500) {
-	    	botPlayer.setMoveSing(0);
-	    	System.out.println("quieto");
-	    }
 	    if (cont %100==0){
 	    	ef.createTopShot();
-	    	ef.createAsteroid(new Vec2(0,0), new Vec2(1,1), 0.4f);
+	    	ef.createBottomShot();
 	    }
-	    if (cont == 700) {
-	    	botPlayer.setMoveSing(-1);
-	    	System.out.println("Izquierda");
+	    
+	    if (cont%250==0) {
+	    	ef.createAsteroid(new Vec2(0,0), new Vec2(MathUtils.randomFloat(-2, 2),MathUtils.randomFloat(-2, 2)),
+	    			MathUtils.randomFloat(0.2f, 1.3f));
 	    }
-	    if (cont == 1100) {
-	    	botPlayer.setMoveSing(0);
-	    	System.out.println("quieto");
-	    }
+
 	    
 	    //delete bodies
 	    for (Body a : this.asteroidsToRemove) {
@@ -142,6 +132,8 @@ public class Server2 extends TestbedTest {
 	    for (Body s : this.shotsToRemove) {
 	    	ef.deleteShot(s);
 	    }
+	    this.asteroidsToRemove.clear();
+	    this.shotsToRemove.clear();
 	    
 	    botPlayer.updateMove();
 	    topPlayer.updateMove();
