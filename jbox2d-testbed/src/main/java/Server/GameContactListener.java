@@ -1,16 +1,21 @@
 package Server;
 
+import java.util.List;
+
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
 
 public class GameContactListener implements ContactListener {
 
 	private EntityFactory ef;
+	private List<Body> asteroids,shots;
 
-	public GameContactListener(EntityFactory ef) {
-		this.ef = ef;
+	public GameContactListener(List<Body> asteroids,List<Body>shots) {
+		this.asteroids=asteroids;
+		this.shots=shots;
 	}
 
 	private boolean areCollided(Contact contact, Object userA, Object userB) {
@@ -28,23 +33,29 @@ public class GameContactListener implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		
-		String a = (String)contact.getFixtureA().getUserData();
-		String b = (String)contact.getFixtureB().getUserData();
-		if (a.equals("shot")){
-        	ef.deleteShot(contact.getFixtureA().getBody());
-        }else if (b.equals("shot")){
-        	ef.deleteShot(contact.getFixtureB().getBody());
-        	contact.getFixtureB().destroy();
-        }
-		
+		// TODO Auto-generated method stub
 
+        String a = (String)contact.getFixtureA().getUserData();
+        String b = (String)contact.getFixtureB().getUserData();
+        System.out.println(a +" colisiona con "+b);
+        
+        if (a.equals("shot")){
+        	this.shots.add(contact.getFixtureA().getBody());
+        }else if (b.equals("shot")){
+        	this.shots.add(contact.getFixtureB().getBody());
+        }
+        
+        if (a.equals("asteroid")){
+        	this.asteroids.add(contact.getFixtureA().getBody());
+        }else if (b.equals("asteroid")){
+        	this.asteroids.add(contact.getFixtureB().getBody());
+        }
 	}
 
 	@Override
 	public void endContact(Contact contact) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -55,7 +66,7 @@ public class GameContactListener implements ContactListener {
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
+
 
 	}
 

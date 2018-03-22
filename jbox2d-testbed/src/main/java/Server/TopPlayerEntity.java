@@ -30,6 +30,8 @@ public class TopPlayerEntity {
 		fd.shape = shape;
 		fd.density = Constants.DENSITY_SHIP;
 		fd.friction = Constants.FRICTION_SHIP;
+		fd.filter.categoryBits = Constants.BIT_PLAYER;
+		fd.filter.maskBits = Constants.BIT_FIELD_LIMIT | Constants.BIT_ASTEROID | Constants.BIT_SHOT;
 
 		BodyDef bdplayer = new BodyDef();
 		bdplayer.type = BodyType.DYNAMIC;

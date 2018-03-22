@@ -5,6 +5,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 public class FieldLimit {
@@ -20,14 +21,21 @@ public class FieldLimit {
 		
 		float r = Constants.RADIO_ROTATION_SHIP;
 		
+		FixtureDef fd = new FixtureDef();
+		fd.filter.categoryBits = Constants.BIT_FIELD_LIMIT;
+		fd.filter.maskBits = Constants.BIT_PLAYER;
+		fd.userData="fieldLimit";
+		
 		PolygonShape polygon = new PolygonShape();
+		
 		polygon.setAsEdge(new Vec2(-r-0.1f, 0), new Vec2(-r+0.1f, 0));
-	    fieldLimit.createFixture(polygon, 0);
-	    fieldLimit.getFixtureList().setUserData("fieldLimit");
+		fd.shape = polygon;
+	    fieldLimit.createFixture(fd);
 	    
 	    polygon.setAsEdge(new Vec2(r-0.1f, 0), new Vec2(r+0.1f, 0));
-	    fieldLimit.createFixture(polygon, 0.0f);
-	    fieldLimit.getFixtureList().setUserData("fieldLimit");
+	    fd.shape = polygon;
+	    fieldLimit.createFixture(fd);
+	    
 	}
 
 	public Body getFieldLimit() {

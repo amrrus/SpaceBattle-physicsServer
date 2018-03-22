@@ -1,17 +1,20 @@
 package org.jbox2d.testbed.tests;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.testbed.framework.ContactPoint;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 import Server.BottomPlayerEntity;
 import Server.Connection;
 import Server.EntityFactory;
+import Server.GameContactListener;
 import Server.TopPlayerEntity;
 
 
@@ -21,6 +24,8 @@ public class Server2 extends TestbedTest {
     private EntityFactory ef;
     private Integer cont;
     private Connection conn;
+    private List<Body> asteroidsToRemove;
+    private List<Body> shotsToRemove;
     
 	  private static final long BULLET_TAG = 1;
 	  Body m_bullet;
@@ -57,22 +62,19 @@ public class Server2 extends TestbedTest {
 	      this.conn = new Connection();
 	      this.ef = new EntityFactory(getWorld(),this.conn);
 	      
-	      //getWorld().setContactListener(new GameContactListener(this.ef));
+	      this.asteroidsToRemove = new ArrayList<Body>();
+	      this.shotsToRemove = new ArrayList<Body>();
+	      
+	      getWorld().setContactListener(new GameContactListener(this.asteroidsToRemove,this.shotsToRemove));
 	      
 	      
-	      ef.createWorldBorder();	      
-	      ef.createFieldLimit();
+	      this.ef.createWorldBorder();	      
+	      this.ef.createFieldLimit();
 	      
-	      botPlayer = ef.createBottomPlayer();
-	      topPlayer = ef.createTopPlayer();
-//
-//	      AsteroidEntity asteroid1 = ef.createAsteroid(.7f);
-//	      
-//	      AsteroidEntity asteroid2 = ef .createAsteroid(.5f, new Vec2(1, 1),new Vec2(1,1));
-//	      asteroid2.applyLinearImpulse();
-//
-//	      ShotEntity shot = ef.createShot(new Vec2(-1,-1));
-	      cont = 0;
+	      this.botPlayer = this.ef.createBottomPlayer();
+	      this.topPlayer = this.ef.createTopPlayer();
+
+	      this.cont = 0;
 	  }
 
 	 
@@ -108,10 +110,8 @@ public class Server2 extends TestbedTest {
 	  }
 
 	  public void step(TestbedSettings settings){
-	    super.step(settings);
+	    super.step(settings);//process contacts
 	    cont++;
-
-
 	    
 	    if (cont == 200) {
 	    	botPlayer.setMoveSing(1);
@@ -123,7 +123,7 @@ public class Server2 extends TestbedTest {
 	    	System.out.println("quieto");
 	    }
 	    if (cont %100==0){
-	    	//ef.createTopShot();
+	    	ef.createTopShot();
 	    	ef.createAsteroid(new Vec2(0,0), new Vec2(1,1), 0.4f);
 	    }
 	    if (cont == 700) {
@@ -135,24 +135,13 @@ public class Server2 extends TestbedTest {
 	    	System.out.println("quieto");
 	    }
 	    
-	    for (int i = 0; i < getPointCount(); ++i) {
-	        ContactPoint point = points[i];
-	        String a = (String)point.fixtureA.getUserData();
-	        String b = (String)point.fixtureB.getUserData();
-	        //System.out.println(a +" colisiona con "+b);
-	        if (a.equals("shot")){
-	        	ef.deleteShot(point.fixtureA.getBody());
-	        }else if (b.equals("shot")){
-	        	ef.deleteShot(point.fixtureB.getBody());
-	        }
-	        
-	        if (a.equals("asteroid")){
-	        	ef.deleteAsteroid(point.fixtureA.getBody());
-	        }else if (b.equals("asteroid")){
-	        	ef.deleteAsteroid(point.fixtureB.getBody());
-	        }
-	        
-	      }
+	    //delete bodies
+	    for (Body a : this.asteroidsToRemove) {
+	    	ef.deleteAsteroid(a);
+	    }
+	    for (Body s : this.shotsToRemove) {
+	    	ef.deleteShot(s);
+	    }
 	    
 	    botPlayer.updateMove();
 	    topPlayer.updateMove();
@@ -165,6 +154,7 @@ public class Server2 extends TestbedTest {
 	  public String getTestName() {
 	    return "Server 2";
 	  }
+
 	  	  
 	  
 	}

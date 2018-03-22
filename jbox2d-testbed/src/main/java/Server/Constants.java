@@ -34,6 +34,14 @@ public class Constants {
     public static final String SERVER_URL = "http://192.168.1.101:3000";
     
 	public static final float radiansToDegrees = 180f / MathUtils.PI;
+	
+	public static final int BIT_PLAYER= 0x0001;
+	public static final int BIT_SHOT= 0x0002;
+	public static final int BIT_ASTEROID= 0x0004;
+	public static final int BIT_WORLD_BORDER= 0x0008;
+	public static final int BIT_FIELD_LIMIT=  0x00F0;
+	
+	
 	  
 	public static float crs (Vec2 pos,Vec2 ref) {
 		return pos.x * ref.y - pos.y * ref.x;

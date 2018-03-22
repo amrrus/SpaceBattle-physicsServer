@@ -116,6 +116,8 @@ public class EntityFactory {
 		fds.shape = circle;
 		fds.density = Constants.SHOT_DENSITY;
 		fds.friction = 0f;
+		fds.filter.categoryBits = Constants.BIT_SHOT;
+		fds.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_ASTEROID | Constants.BIT_WORLD_BORDER;
 		shot.createFixture(fds);
 		shot.getFixtureList().setUserData("shot");
 		shot.applyLinearImpulse(impulse, new Vec2(0,0));
@@ -138,6 +140,9 @@ public class EntityFactory {
 		  fds.shape = circle;
 		  fds.density = Constants.ASTEROID_DENSITY;
 		  fds.friction = Constants.ASTEROID_FRICTION;
+		  fds.filter.categoryBits = Constants.BIT_ASTEROID;
+		  fds.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_SHOT | Constants.BIT_WORLD_BORDER;
+		  
 		  asteroid.createFixture(fds);
 		  asteroid.getFixtureList().setUserData("asteroid");
 		  
