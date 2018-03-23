@@ -31,7 +31,7 @@ public class Constants {
     public static final Integer PLAYER_BOTTOM_ID = 0;
     public static final Integer PLAYER_TOP_ID = 1;
     
-    public static final String SERVER_URL = "http://127.0.0.1:3000";
+    public static final String SERVER_URL = "http://192.168.1.101:3000";
     
 	public static final float radiansToDegrees = 180f / MathUtils.PI;
 	
@@ -40,6 +40,10 @@ public class Constants {
 	public static final int BIT_ASTEROID= 0x0004;
 	public static final int BIT_WORLD_BORDER= 0x0008;
 	public static final int BIT_FIELD_LIMIT=  0x00F0;
+	
+	public static final float SIZE_EXPLOSION_SHOT_ASTEROID = 0.5f;
+	public static final float SIZE_EXPLOSION_SHOT_PLAYER = 1f;
+	public static final float SIZE_EXPLOSION_ASTEROID_PLAYER = 1.5f;
 	
 	
 	  

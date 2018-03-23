@@ -2,6 +2,8 @@ package Server;
 
 import java.util.HashMap;
 
+import org.jbox2d.collision.Manifold;
+import org.jbox2d.collision.ManifoldPoint;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -9,6 +11,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
 
 public class EntityFactory {
 
@@ -96,6 +99,32 @@ public class EntityFactory {
 			this.world.destroyBody(shot);
 		}
 	}
+	
+	public void createExplosionShotAsteroid(Contact c) {
+		float size = Constants.SIZE_EXPLOSION_SHOT_ASTEROID;
+		Vec2 printPos = printExplosionPosition(c,size);
+		this.conn.sendExplosion(printPos.x, printPos.y, size);
+	}
+	
+	public void createExplosionShotPlayer(Contact c) {
+		float size = Constants.SIZE_EXPLOSION_SHOT_PLAYER;
+		Vec2 printPos = printExplosionPosition(c,size);
+		this.conn.sendExplosion(printPos.x, printPos.y, size);
+	}
+	
+	public void createExplosionAteroidPlayer(Contact c) {
+		float size = Constants.SIZE_EXPLOSION_ASTEROID_PLAYER;
+		Vec2 printPos = printExplosionPosition(c,size);
+		this.conn.sendExplosion(printPos.x, printPos.y, size);
+	}
+	
+	private Vec2 printExplosionPosition(Contact c,float size) {
+		Vec2 aux = c.getFixtureA().getBody().getPosition().clone().add(c.getFixtureB().getBody().getPosition().clone());
+		Vec2 ret = new Vec2 ((aux.x/2)-size/2,(aux.y/2)-size/2);
+		return ret;
+	}
+	
+
 
 	private Body createShotEntity(Vec2 pos, Integer clientId) {
 		Vec2 impulse = pos.clone();

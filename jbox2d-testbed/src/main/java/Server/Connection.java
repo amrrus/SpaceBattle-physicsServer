@@ -120,5 +120,16 @@ public class Connection {
 		this.topPlayer = topPlayer;
 	}
   
+	public void sendExplosion(float x,float y, float size) {
+		JSONObject msg = new JSONObject();
+    	try {
+    		msg.put("x",x);
+            msg.put("y",y);
+            msg.put("size",size);
+    		mSocket.emit("SS_explosion", msg);
+    	}catch(JSONException e) {
+			e.printStackTrace();
+    	}
+	}
     
 }

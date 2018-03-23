@@ -64,7 +64,7 @@ public class BottomPlayerEntity {
 	}
 
 	public void updateMove() {
-		if (this.moveSing!=0) {
+		if (this.moveSing!=0|| this.bottomPlayerEntity.m_force.equals(new Vec2(0,0))) {
 			Vec2 radio = bottomPlayerEntity.getPosition();
 			Vec2 tang = new Vec2(-radio.y, radio.x);
 			tang.normalize();

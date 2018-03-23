@@ -61,7 +61,7 @@ public class TopPlayerEntity {
 
 	}
 	public void updateMove() {
-		if (this.moveSing!=0) {
+		if (this.moveSing!=0 || this.topPlayerEntity.m_force.equals(new Vec2(0,0))) {
 			Vec2 radio = this.topPlayerEntity.getPosition();
 			Vec2 tang = new Vec2(-radio.y,radio.x);
 			tang.normalize();
@@ -78,6 +78,7 @@ public class TopPlayerEntity {
 		float y = this.topPlayerEntity.getPosition().y - cos * Constants.RADIO_SHIP - cos * Constants.SHOT_RADIUS - cos * Constants.SHOT_FREE_SPACE;
 		float x = this.topPlayerEntity.getPosition().x + sin * Constants.RADIO_SHIP + sin * Constants.SHOT_RADIUS + sin * Constants.SHOT_FREE_SPACE;
 		return new Vec2 (x,y);
+		
 	}
 
 	public Vec3 printInfo() {

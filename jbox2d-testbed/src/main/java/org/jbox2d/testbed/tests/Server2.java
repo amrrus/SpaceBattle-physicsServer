@@ -66,7 +66,7 @@ public class Server2 extends TestbedTest {
 	      this.asteroidsToRemove = new ArrayList<Body>();
 	      this.shotsToRemove = new ArrayList<Body>();
 	      
-	      getWorld().setContactListener(new GameContactListener(this.asteroidsToRemove,this.shotsToRemove));
+	      getWorld().setContactListener(new GameContactListener(this.ef,this.asteroidsToRemove,this.shotsToRemove));
 	      
 	      
 	      this.ef.createWorldBorder();	      
@@ -114,14 +114,14 @@ public class Server2 extends TestbedTest {
 	    super.step(settings);//process contacts
 	    cont++;
 	    
-	    if (cont %100==0){
-	    	ef.createTopShot();
+	    if (cont %150==0){
 	    	ef.createBottomShot();
+	    	ef.createTopShot();
+	    	
 	    }
 	    
-	    if (cont%250==0) {
-	    	ef.createAsteroid(new Vec2(0,0), new Vec2(MathUtils.randomFloat(-2, 2),MathUtils.randomFloat(-2, 2)),
-	    			MathUtils.randomFloat(0.2f, 1.3f));
+	    if (cont%200==0) {
+	    	ef.createAsteroid(new Vec2(0,0), new Vec2(MathUtils.randomFloat(-2, 2),MathUtils.randomFloat(-2, 2)),MathUtils.randomFloat(0.2f, 1.3f));
 	    }
 
 	    

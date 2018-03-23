@@ -13,7 +13,8 @@ public class GameContactListener implements ContactListener {
 	private EntityFactory ef;
 	private List<Body> asteroids,shots;
 
-	public GameContactListener(List<Body> asteroids,List<Body>shots) {
+	public GameContactListener(EntityFactory ef,List<Body> asteroids,List<Body>shots) {
+		this.ef = ef;
 		this.asteroids=asteroids;
 		this.shots=shots;
 	}
@@ -38,6 +39,19 @@ public class GameContactListener implements ContactListener {
         String a = (String)contact.getFixtureA().getUserData();
         String b = (String)contact.getFixtureB().getUserData();
         System.out.println(a +" colisiona con "+b);
+        
+        if (areCollided(contact, "asteroid", "shot")) {
+        	ef.createExplosionShotAsteroid(contact);
+        }
+        
+        if (areCollided(contact, "bottomPlayer", "shot") || areCollided(contact, "topPlayer", "shot")) {
+        	ef.createExplosionShotPlayer(contact);
+        }
+        
+        if (areCollided(contact, "bottomPlayer", "asteroid") || areCollided(contact, "topPlayer", "asteroid")) {
+        	ef.createExplosionAteroidPlayer(contact);
+        }
+        
         
         if (a.equals("shot")){
         	this.shots.add(contact.getFixtureA().getBody());
