@@ -25,7 +25,7 @@ public class WorldBorder {
 		FixtureDef fd = new FixtureDef();
 		fd.filter.categoryBits = Constants.BIT_WORLD_BORDER;
 		fd.filter.maskBits = Constants.BIT_ASTEROID | Constants.BIT_SHOT;
-		fd.userData = "worldBorder";
+		fd.userData = Constants.USERDATA_WORLDBORDER;
 
 		PolygonShape polygon = new PolygonShape();
 		

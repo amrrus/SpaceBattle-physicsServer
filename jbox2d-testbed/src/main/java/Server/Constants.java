@@ -45,7 +45,14 @@ public class Constants {
 	public static final float SIZE_EXPLOSION_SHOT_PLAYER = 1f;
 	public static final float SIZE_EXPLOSION_ASTEROID_PLAYER = 1.5f;
 	
+	public static final String USERDATA_TOP_PLAYER = "topPlayer";
+	public static final String USERDATA_BOTTOM_PLAYER = "bottomPlayer";
+	public static final String USERDATA_ASTEROID = "asteroid";
+	public static final String USERDATA_SHOT = "shot";
+	public static final String USERDATA_FIELDLIMIT = "fieldLimit";
+	public static final String USERDATA_WORLDBORDER = "worldBorder";
 	
+	public static final Integer INITIAL_PLAYER_LIVES = 3;
 	  
 	public static float crs (Vec2 pos,Vec2 ref) {
 		return pos.x * ref.y - pos.y * ref.x;

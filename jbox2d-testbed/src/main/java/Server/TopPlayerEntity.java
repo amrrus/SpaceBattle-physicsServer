@@ -19,6 +19,7 @@ public class TopPlayerEntity {
 	private Connection conn;
 	private Integer moveSing;
 	private Vec2 oyTop;
+	private Integer lives;
 	
 	public TopPlayerEntity(World world, Body center, Connection conn) {
 
@@ -39,7 +40,7 @@ public class TopPlayerEntity {
 		bdplayer.fixedRotation = true;
 		this.topPlayerEntity = this.world.createBody(bdplayer);
 		this.topPlayerEntity.createFixture(fd);
-		this.topPlayerEntity.getFixtureList().setUserData("topPlayer");
+		this.topPlayerEntity.getFixtureList().setUserData(Constants.USERDATA_TOP_PLAYER);
 
 		DistanceJointDef distanceBotToCen = new DistanceJointDef();
 		distanceBotToCen.bodyA = this.topPlayerEntity;
@@ -49,6 +50,7 @@ public class TopPlayerEntity {
 		this.moveSing = 0;
 		this.playerId = Constants.PLAYER_TOP_ID;
 		this.oyTop = new Vec2(0,1);
+		this.lives = Constants.INITIAL_PLAYER_LIVES;
 	}
 	
 	public void setMoveSing(Integer moveSing) {
@@ -90,8 +92,18 @@ public class TopPlayerEntity {
 		float alpha = alphaBot * Constants.radiansToDegrees;
 		return new Vec3(x,y,alpha);
 	}
+	
 	public Vec2 getPosition() {
 		return this.topPlayerEntity.getPosition();
+	}
+	
+	public void hadCollider() {
+		this.lives--;
+		if (this.lives <=0) {
+			this.conn.sendPlayerDeath(this.playerId);
+		}else {
+			this.conn.sendPlayerLives(this.playerId,this.lives);
+		}
 	}
 
 }

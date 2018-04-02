@@ -1,9 +1,6 @@
 package Server;
 
 import java.util.HashMap;
-
-import org.jbox2d.collision.Manifold;
-import org.jbox2d.collision.ManifoldPoint;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -109,13 +106,25 @@ public class EntityFactory {
 	public void createExplosionShotPlayer(Contact c) {
 		float size = Constants.SIZE_EXPLOSION_SHOT_PLAYER;
 		Vec2 printPos = printExplosionPosition(c,size);
+		updatePlayerLives(c);		
 		this.conn.sendExplosion(printPos.x, printPos.y, size);
+		
 	}
 	
 	public void createExplosionAteroidPlayer(Contact c) {
 		float size = Constants.SIZE_EXPLOSION_ASTEROID_PLAYER;
 		Vec2 printPos = printExplosionPosition(c,size);
+		updatePlayerLives(c);
 		this.conn.sendExplosion(printPos.x, printPos.y, size);
+	}
+	
+	private void updatePlayerLives(Contact c) {
+		if (c.getFixtureA().getUserData().equals(Constants.USERDATA_TOP_PLAYER) 
+			|| c.getFixtureB().getUserData().equals(Constants.USERDATA_TOP_PLAYER)) {
+			this.topPlayer.hadCollider();
+		} else {
+			this.botPlayer.hadCollider();
+		}
 	}
 	
 	private Vec2 printExplosionPosition(Contact c,float size) {
@@ -124,8 +133,6 @@ public class EntityFactory {
 		return ret;
 	}
 	
-
-
 	private Body createShotEntity(Vec2 pos, Integer clientId) {
 		Vec2 impulse = pos.clone();
 		impulse.normalize();

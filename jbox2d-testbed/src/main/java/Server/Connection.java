@@ -131,5 +131,26 @@ public class Connection {
 			e.printStackTrace();
     	}
 	}
+	
+	public void sendPlayerLives(Integer playerId,Integer lives) {
+    	JSONObject msg = new JSONObject();
+    	try {
+            msg.put("playerId",playerId);
+            msg.put("lives",lives);
+    		mSocket.emit("SS_createShot", msg);
+    	}catch(JSONException e) {
+			e.printStackTrace();
+    	}
+	}
+	
+	public void sendPlayerDeath(Integer playerId) {
+    	JSONObject msg = new JSONObject();
+    	try {
+            msg.put("playerId",playerId);
+    		mSocket.emit("SS_createShot", msg);
+    	}catch(JSONException e) {
+			e.printStackTrace();
+    	}
+	}
     
 }
