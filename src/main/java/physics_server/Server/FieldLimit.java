@@ -20,7 +20,7 @@ public class FieldLimit {
 		FixtureDef fd = new FixtureDef();
 		fd.filter.categoryBits = Constants.BIT_FIELD_LIMIT;
 		fd.filter.maskBits = Constants.BIT_PLAYER;
-		fd.userData="fieldLimit";
+		fd.userData=Constants.USERDATA_FIELDLIMIT;
 		
 		PolygonShape polygon = new PolygonShape();
 		

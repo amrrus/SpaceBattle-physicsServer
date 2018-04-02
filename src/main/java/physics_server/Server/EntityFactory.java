@@ -103,12 +103,14 @@ public class EntityFactory {
 	public void createExplosionShotPlayer(Contact c) {
 		float size = Constants.SIZE_EXPLOSION_SHOT_PLAYER;
 		Vec2 printPos = printExplosionPosition(c,size);
+		updatePlayerLives(c);
 		this.conn.sendExplosion(printPos.x, printPos.y, size);
 	}
 	
 	public void createExplosionAteroidPlayer(Contact c) {
 		float size = Constants.SIZE_EXPLOSION_ASTEROID_PLAYER;
 		Vec2 printPos = printExplosionPosition(c,size);
+		updatePlayerLives(c);
 		this.conn.sendExplosion(printPos.x, printPos.y, size);
 	}
 	
@@ -118,7 +120,14 @@ public class EntityFactory {
 		return ret;
 	}
 	
-
+	private void updatePlayerLives(Contact c) {
+		if (c.getFixtureA().getUserData().equals(Constants.USERDATA_TOP_PLAYER) 
+			|| c.getFixtureB().getUserData().equals(Constants.USERDATA_TOP_PLAYER)) {
+			this.topPlayer.hadCollider();
+		} else {
+			this.botPlayer.hadCollider();
+		}
+	}
 
 	private Body createShotEntity(Vec2 pos, Integer clientId) {
 		Vec2 impulse = pos.clone();

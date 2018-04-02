@@ -15,6 +15,7 @@ public class BottomPlayerEntity {
 	private Integer moveSing;
 	private Vec2 oyBot;
 	private Integer playerId;
+	private Integer lives;
 
 	public BottomPlayerEntity(World world, Body center, Connection conn) {
 
@@ -35,7 +36,7 @@ public class BottomPlayerEntity {
 		bdplayer.fixedRotation = true;
 		bottomPlayerEntity = this.world.createBody(bdplayer);
 		bottomPlayerEntity.createFixture(fd);
-		bottomPlayerEntity.getFixtureList().setUserData("bottomPlayer");
+		bottomPlayerEntity.getFixtureList().setUserData(Constants.USERDATA_BOTTOM_PLAYER);
 
 		DistanceJointDef distanceBotToCen = new DistanceJointDef();
 		distanceBotToCen.bodyA = this.bottomPlayerEntity;
@@ -46,6 +47,7 @@ public class BottomPlayerEntity {
 		this.bottomPlayerEntity.setLinearVelocity(new Vec2(0, 0));
 		this.oyBot=new Vec2(0,-1);
 		this.playerId= Constants.PLAYER_BOTTOM_ID;
+		this.lives = Constants.INITIAL_PLAYER_LIVES;
 
 	}
 
@@ -91,6 +93,15 @@ public class BottomPlayerEntity {
 	
 	public Vec2 getPosition() {
 		return this.bottomPlayerEntity.getPosition();
+	}
+	
+	public void hadCollider() {
+		this.lives--;
+		if (this.lives <0) {
+			this.conn.sendPlayerDeath(this.playerId);
+		}else {
+			this.conn.sendPlayerLives(this.playerId,this.lives);
+		}
 	}
 
 }

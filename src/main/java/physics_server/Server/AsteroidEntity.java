@@ -40,7 +40,7 @@ public class AsteroidEntity {
 		  fds.density = Constants.ASTEROID_DENSITY;
 		  fds.friction = 0f;
 		  this.asteroid.createFixture(fds);
-		  this.asteroid.getFixtureList().setUserData("asteroid");
+		  this.asteroid.getFixtureList().setUserData(Constants.USERDATA_ASTEROID);
 	      
 	}
 	

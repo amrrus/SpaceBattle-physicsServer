@@ -32,7 +32,7 @@ public class ShotEntity {
 		fds.filter.categoryBits = Constants.BIT_SHOT;
 		fds.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_ASTEROID | Constants.BIT_WORLD_BORDER;
 		this.shot.createFixture(fds);
-		this.shot.getFixtureList().setUserData("shot");
+		this.shot.getFixtureList().setUserData(Constants.USERDATA_SHOT);
 		this.shot.applyLinearImpulse(impulse, new Vec2(0, 0));
 
 	}
