@@ -1,4 +1,4 @@
-package Server;
+package physics_server.Server;
 
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;

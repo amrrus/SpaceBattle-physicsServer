@@ -1,6 +1,4 @@
-package Server;
-
-import java.util.List;
+package physics_server.Server;
 
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
@@ -8,12 +6,14 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import java.util.List;
+
 public class GameContactListener implements ContactListener {
 
 	private EntityFactory ef;
 	private List<Body> asteroids,shots;
 
-	public GameContactListener(EntityFactory ef,List<Body> asteroids,List<Body>shots) {
+	public GameContactListener(EntityFactory ef, List<Body> asteroids, List<Body>shots) {
 		this.ef = ef;
 		this.asteroids=asteroids;
 		this.shots=shots;

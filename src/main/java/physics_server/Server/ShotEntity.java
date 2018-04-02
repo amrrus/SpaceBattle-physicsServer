@@ -1,19 +1,15 @@
-package Server;
+package physics_server.Server;
 
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.*;
 
 public class ShotEntity {
 
 	private World world;
 	private Body shot;
 
-	public ShotEntity(World world, Vec2 pos,Connection conn,Integer idShot, Integer clientId) {
+	public ShotEntity(World world, Vec2 pos, Connection conn, Integer idShot, Integer clientId) {
 		this.world = world;
 		Vec2 impulse = pos.clone();
 		impulse.normalize();

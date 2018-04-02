@@ -1,7 +1,10 @@
+package physics_server;
+
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
+import physics_server.Server.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +15,11 @@ public class ServerClass {
 
     private World world;
 
-    private Server.BottomPlayerEntity botPlayer;
-    private Server.TopPlayerEntity topPlayer;
-    private Server.EntityFactory ef;
+    private BottomPlayerEntity botPlayer;
+    private TopPlayerEntity topPlayer;
+    private EntityFactory ef;
     private Integer cont;
-    private Server.Connection conn;
+    private Connection conn;
     private List<Body> asteroidsToRemove;
     private List<Body> shotsToRemove;
 
@@ -27,13 +30,13 @@ public class ServerClass {
         // Set null gravity
         world.setGravity(new Vec2(0,0));
 
-        this.conn = new Server.Connection();
-        this.ef = new Server.EntityFactory(world,this.conn);
+        this.conn = new Connection();
+        this.ef = new EntityFactory(world,this.conn);
 
         this.asteroidsToRemove = new ArrayList<Body>();
         this.shotsToRemove = new ArrayList<Body>();
 
-        world.setContactListener(new Server.GameContactListener(this.ef,this.asteroidsToRemove,this.shotsToRemove));
+        world.setContactListener(new GameContactListener(this.ef,this.asteroidsToRemove,this.shotsToRemove));
 
 
         this.ef.createWorldBorder();

@@ -1,14 +1,10 @@
-package Server;
+package physics_server.Server;
 
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.common.Vec3;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 
 public class BottomPlayerEntity {
@@ -49,7 +45,7 @@ public class BottomPlayerEntity {
 		this.moveSing = 0;
 		this.bottomPlayerEntity.setLinearVelocity(new Vec2(0, 0));
 		this.oyBot=new Vec2(0,-1);
-		this.playerId=Constants.PLAYER_BOTTOM_ID;
+		this.playerId= Constants.PLAYER_BOTTOM_ID;
 
 	}
 
@@ -73,7 +69,7 @@ public class BottomPlayerEntity {
 			conn.sendPlayerPos(this.playerId,printPlayer());
 		}
 	}
-	
+
 	public Vec2 positionShot() {
 		float alphaBot = Constants.angleRad(this.oyBot,this.bottomPlayerEntity.getPosition());
 		float cos = MathUtils.cos(alphaBot);
@@ -82,7 +78,7 @@ public class BottomPlayerEntity {
 		float x = this.bottomPlayerEntity.getPosition().x - sin * Constants.RADIO_SHIP - sin * Constants.SHOT_RADIUS - sin * Constants.SHOT_FREE_SPACE;
 		return new Vec2 (x,y);
 	}
-	
+
 	public Vec3 printPlayer() {
 		float alphaBot = Constants.angleRad(this.oyBot,this.bottomPlayerEntity.getPosition());
 		float cos = MathUtils.cos(alphaBot) * Constants.RADIO_SHIP;

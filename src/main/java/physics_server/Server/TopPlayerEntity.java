@@ -1,14 +1,10 @@
-package Server;
+package physics_server.Server;
 
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.common.Vec3;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 
 public class TopPlayerEntity {
@@ -19,7 +15,7 @@ public class TopPlayerEntity {
 	private Connection conn;
 	private Integer moveSing;
 	private Vec2 oyTop;
-	
+
 	public TopPlayerEntity(World world, Body center, Connection conn) {
 
 		this.world = world;
@@ -50,7 +46,7 @@ public class TopPlayerEntity {
 		this.playerId = Constants.PLAYER_TOP_ID;
 		this.oyTop = new Vec2(0,1);
 	}
-	
+
 	public void setMoveSing(Integer moveSing) {
 		this.moveSing = moveSing;
 		Vec2 radio = this.topPlayerEntity.getPosition();
@@ -70,7 +66,7 @@ public class TopPlayerEntity {
 			conn.sendPlayerPos(this.playerId,printInfo());
 		}
 	}
-	
+
 	public Vec2 positionShot() {
 		float alphaBot = Constants.angleRad(this.oyTop,this.topPlayerEntity.getPosition());
 		float cos = MathUtils.cos(alphaBot);
@@ -78,7 +74,7 @@ public class TopPlayerEntity {
 		float y = this.topPlayerEntity.getPosition().y - cos * Constants.RADIO_SHIP - cos * Constants.SHOT_RADIUS - cos * Constants.SHOT_FREE_SPACE;
 		float x = this.topPlayerEntity.getPosition().x + sin * Constants.RADIO_SHIP + sin * Constants.SHOT_RADIUS + sin * Constants.SHOT_FREE_SPACE;
 		return new Vec2 (x,y);
-		
+
 	}
 
 	public Vec3 printInfo() {

@@ -1,17 +1,11 @@
-package Server;
+package physics_server.Server;
 
-import java.util.HashMap;
-
-import org.jbox2d.collision.Manifold;
-import org.jbox2d.collision.ManifoldPoint;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.Contact;
+
+import java.util.HashMap;
 
 public class EntityFactory {
 
@@ -80,7 +74,7 @@ public class EntityFactory {
 	}
 
 	public void createBottomShot() {
-		Body s = createShotEntity(botPlayer.positionShot(),Constants.PLAYER_BOTTOM_ID);
+		Body s = createShotEntity(botPlayer.positionShot(), Constants.PLAYER_BOTTOM_ID);
 		this.shots.put(s, this.idShot);
 		this.idShot++;
 	}
