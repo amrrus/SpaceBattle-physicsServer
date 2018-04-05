@@ -7,19 +7,18 @@ import org.jbox2d.common.Vec3;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 
-public class TopPlayerEntity {
+public class TopPlayerEntity extends PlayerKernel{
 	
 	private Body topPlayerEntity;
 	private World world;
-	private Integer playerId;
-	private Connection conn;
 	private Integer moveSing;
 	private Vec2 oyTop;
-	private Integer lives;
+
 
 	public TopPlayerEntity(World world, Body center, Connection conn) {
+		super(conn,Constants.PLAYER_TOP_ID);
 		this.world = world;
-		this.conn = conn;
+
 		CircleShape shape = new CircleShape();
 		shape.m_radius = Constants.RADIO_SHIP;
 		FixtureDef fd = new FixtureDef();
@@ -43,9 +42,7 @@ public class TopPlayerEntity {
 		distanceBotToCen.length = Constants.RADIO_ROTATION_SHIP;
 		this.world.createJoint(distanceBotToCen);
 		this.moveSing = 0;
-		this.playerId = Constants.PLAYER_TOP_ID;
 		this.oyTop = new Vec2(0,1);
-		this.lives = Constants.INITIAL_PLAYER_LIVES;
 	}
 
 	public void setMoveSing(Integer moveSing) {
@@ -65,7 +62,7 @@ public class TopPlayerEntity {
 			tang.normalize();
 			Vec2 impulse = tang.mul(Constants.MOVE_VELOCITY* moveSing*(-1));
 			this.topPlayerEntity.setLinearVelocity(impulse);
-			conn.sendPlayerPos(this.playerId,printInfo());
+			getConn().sendPlayerPos(getPlayerId(),printInfo());
 		}
 	}
 
@@ -93,13 +90,4 @@ public class TopPlayerEntity {
 		return this.topPlayerEntity.getPosition();
 	}
 	
-	public void hadCollider() {
-		this.lives--;
-		if (this.lives <0) {
-			this.conn.sendPlayerDeath(this.playerId);
-		}else {
-			this.conn.sendPlayerLives(this.playerId,this.lives);
-		}
-	}
-
 }

@@ -53,7 +53,10 @@ public class Constants {
 	public static final String USERDATA_WORLDBORDER = "worldBorder";
 	
 	public static final Integer INITIAL_PLAYER_LIVES = 3;
-	  
+	public static final Integer MAX_NUMBER_SHOTS_STORED = 5; 
+	public static final float TIME_SHOT_REGENERATION_INTERVAL=3;
+	public static final float TIME_BETWEEN_SHOTS = 1;
+	
 	public static float crs (Vec2 pos,Vec2 ref) {
 		return pos.x * ref.y - pos.y * ref.x;
 	}

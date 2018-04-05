@@ -17,6 +17,7 @@ public class Connection {
 	private String room;
 	private Emitter.Listener sendRoom;
 	private Emitter.Listener movePlayer;
+	private Emitter.Listener shooting;
 	private Emitter.Listener requestConfig;
 	private Emitter.Listener onDisconnect;
 	private BottomPlayerEntity botPlayer;
@@ -32,6 +33,7 @@ public class Connection {
 	    }
 	      mSocket.on("move_player", movePlayer);
 	      mSocket.on("request_config",requestConfig);
+	      mSocket.on("player_shooting", shooting);
 	      mSocket.connect();
 
 		JSONObject msg = new JSONObject();
@@ -85,6 +87,27 @@ public class Connection {
     };
     }
 
+    {   shooting = new Emitter.Listener() {
+        public void call(final Object... args){
+			JSONArray data =  (JSONArray) args[0];
+			Boolean shooting = false;
+			Integer idPlayer = -1;
+			try {
+				shooting = data.getBoolean(0);
+				idPlayer =  data.getInt(1);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			if(idPlayer == Constants.PLAYER_BOTTOM_ID){
+				System.out.println("Client: "+ Constants.PLAYER_BOTTOM_ID+", shooting:"+shooting);
+				botPlayer.setShooting(shooting);
+			}else if(idPlayer == Constants.PLAYER_TOP_ID){
+				System.out.println("Client: "+ Constants.PLAYER_TOP_ID+", shooting:"+shooting);
+				topPlayer.setShooting(shooting);
+			}
+        }
+    };
+    }
     
     public void sendPlayerPos(Integer id, Vec3 pos) {
     	JSONObject msg = new JSONObject();
@@ -174,6 +197,17 @@ public class Connection {
     	try {
             msg.put("playerId",playerId);
     		mSocket.emit("update_player_death", msg);
+    	}catch(JSONException e) {
+			e.printStackTrace();
+    	}
+	}
+	
+	public void sendUpdateShots(Integer playerId,Integer shots) {
+		JSONObject msg = new JSONObject();
+    	try {
+            msg.put("playerId",playerId);
+            msg.put("shots", shots);
+    		mSocket.emit("update_player_shots", msg);
     	}catch(JSONException e) {
 			e.printStackTrace();
     	}

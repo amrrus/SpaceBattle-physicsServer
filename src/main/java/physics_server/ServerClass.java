@@ -49,13 +49,9 @@ public class ServerClass {
     }
 
     public void step(){
-
+    	float delta=0.005f;
         cont++;
-
-        if (cont %150==0){
-            ef.createBottomShot();
-            ef.createTopShot();
-        }
+        ef.shootingSecuence(delta);
 
         if (cont%200==0) {
             ef.createAsteroid(new Vec2(0,0), new Vec2(MathUtils.randomFloat(-2, 2),MathUtils.randomFloat(-2, 2)),MathUtils.randomFloat(0.2f, 1.3f));

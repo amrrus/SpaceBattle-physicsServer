@@ -74,15 +74,29 @@ public class EntityFactory {
 	}
 
 	public void createBottomShot() {
-		Body s = createShotEntity(botPlayer.positionShot(), Constants.PLAYER_BOTTOM_ID);
-		this.shots.put(s, this.idShot);
-		this.idShot++;
+		if(botPlayer.getCanShoot() && botPlayer.getShooting()) {
+			botPlayer.shoot();
+			Body s = createShotEntity(botPlayer.positionShot(), Constants.PLAYER_BOTTOM_ID);
+			this.shots.put(s, this.idShot);
+			this.idShot++;
+		}
 	}
 
 	public void createTopShot() {
-		Body s = createShotEntity(topPlayer.positionShot(), Constants.PLAYER_TOP_ID);
-		this.shots.put(s, this.idShot);
-		this.idShot++;
+		if (topPlayer.getCanShoot() && topPlayer.getShooting()) {
+			topPlayer.shoot();
+			Body s = createShotEntity(topPlayer.positionShot(), Constants.PLAYER_TOP_ID);
+			this.shots.put(s, this.idShot);
+			this.idShot++;
+		}
+		
+	}
+	public void shootingSecuence(float delta) {
+		this.topPlayer.updateShots(delta);
+        this.botPlayer.updateShots(delta);
+        
+        createBottomShot();
+        createTopShot();
 	}
 
 	public void deleteShot(Body shot) {
