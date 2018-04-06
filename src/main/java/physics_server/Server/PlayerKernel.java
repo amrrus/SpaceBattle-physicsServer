@@ -32,13 +32,19 @@ public class PlayerKernel {
 	}
 	public void updateShots(float delta) {
 		this.timeSinceLastShot+=delta;
-		this.timeSinceLastShotRegeneration+=delta;
+		if(this.shots != Constants.MAX_NUMBER_SHOTS_STORED) {
+			this.timeSinceLastShotRegeneration+=delta;
+		}
 		
 		if (this.timeSinceLastShotRegeneration>Constants.TIME_SHOT_REGENERATION_INTERVAL 
 				&& this.shots<Constants.MAX_NUMBER_SHOTS_STORED) {
 			this.timeSinceLastShotRegeneration-=Constants.TIME_SHOT_REGENERATION_INTERVAL;
 			this.shots++;
+			if (this.shots == Constants.MAX_NUMBER_SHOTS_STORED) {
+				this.timeSinceLastShotRegeneration = 0;
+			}
 			this.conn.sendUpdateShots(this.playerId,this.shots);
+			System.out.println("Shots"+this.shots);
 		}
 		
 		if (this.timeSinceLastShot > Constants.TIME_BETWEEN_SHOTS && this.shots>0){

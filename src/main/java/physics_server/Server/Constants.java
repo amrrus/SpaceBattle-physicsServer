@@ -1,5 +1,8 @@
 package physics_server.Server;
 
+import java.math.MathContext;
+import java.util.Vector;
+
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 
@@ -57,6 +60,14 @@ public class Constants {
 	public static final float TIME_SHOT_REGENERATION_INTERVAL=3;
 	public static final float TIME_BETWEEN_SHOTS = 1;
 	
+	
+	public static final float MAX_ASTEROID_IMPULSE = 3;
+	public static final float MIN_ASTEROID_IMPULSE = 0.5f;
+	public static final float MIN_ASTEROID_RADIUS = 0.2f;
+	public static final float MAX_ASTEROID_RADIUS = 1.5f;
+	public static final float ASTEROID_SPAWN_RADIUS = 1;
+	public static final float ASTEROID_IMPULSE_SHIFT=1;
+	
 	public static float crs (Vec2 pos,Vec2 ref) {
 		return pos.x * ref.y - pos.y * ref.x;
 	}
@@ -68,4 +79,47 @@ public class Constants {
 	public static float angleRad (Vec2 possition,Vec2 reference) {
 		return (float)Math.atan2(crs(possition,reference), dot(possition,reference));
 	}
+	
+	
+	private static int next=0;
+	private static float ParInpar() {
+		float ret=0;
+		switch(next) {
+		case -1:
+			ret = -MathUtils.randomFloat(0, 1);
+			next=1;
+			break;
+		case 1:
+			ret = MathUtils.randomFloat(0, 1);
+			next=-1;
+			break;
+		case 0:
+			ret = MathUtils.randomFloat(-1, 1);
+			if (ret<0) {
+				next=1;
+			}else {
+				next=-1;
+			}
+			break;
+		}
+		return ret;
+	}
+	private static Vec2 asteroidPossition() {
+		return new Vec2(MathUtils.randomFloat(-ASTEROID_SPAWN_RADIUS, ASTEROID_SPAWN_RADIUS),ParInpar()*ASTEROID_SPAWN_RADIUS);
+	}
+	private static Vec2 asteroidImpulse(Vec2 pos) {
+		Vec2 ret = pos.clone();
+		ret.normalize();
+		ret.mulLocal(MathUtils.randomFloat(MIN_ASTEROID_IMPULSE, MAX_ASTEROID_IMPULSE));
+		System.out.println(ret);
+		return ret;
+	}
+	private static float asteroidRadius() {
+		return MathUtils.randomFloat(MIN_ASTEROID_RADIUS, MAX_ASTEROID_RADIUS);
+	}
+	public static AsteroidParameters generateAsteroidParameters() {
+		Vec2 pos=asteroidPossition();
+		return new AsteroidParameters(pos, asteroidImpulse(pos), asteroidRadius());
+	}
+	
 }

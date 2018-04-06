@@ -55,6 +55,13 @@ public class EntityFactory {
 		return b;
 	}
 	
+	public Body createAsteroid() {
+		AsteroidParameters ap=Constants.generateAsteroidParameters();
+		Body a = createAsteroidEntity(this.idAsteroid, ap.getPossition(), ap.getImpulse(),ap.getRadius());
+		asteroids.put(a, this.idAsteroid);
+		this.idAsteroid++;
+		return a;
+	}
 	
 	public Body createAsteroid(Vec2 pos, Vec2 impulse, Float radius) {
 		Body a = createAsteroidEntity(this.idAsteroid, pos, impulse,radius);

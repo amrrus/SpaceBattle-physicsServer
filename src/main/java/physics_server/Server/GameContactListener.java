@@ -38,7 +38,7 @@ public class GameContactListener implements ContactListener {
 
         String a = (String)contact.getFixtureA().getUserData();
         String b = (String)contact.getFixtureB().getUserData();
-        System.out.println(a +" colisiona con "+b);
+
         
         if (areCollided(contact, "asteroid", "shot")) {
         	ef.createExplosionShotAsteroid(contact);
