@@ -1,8 +1,5 @@
 package physics_server.Server;
 
-import java.math.MathContext;
-import java.util.Vector;
-
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 

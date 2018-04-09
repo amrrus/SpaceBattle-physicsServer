@@ -1,11 +1,9 @@
 package physics_server;
 
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 import physics_server.Server.*;
-
 import java.util.ArrayList;
 import java.util.List;
 

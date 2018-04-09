@@ -15,7 +15,7 @@ public class Connection {
 
 	private Socket mSocket;
 	private String room;
-	private Emitter.Listener sendRoom;
+	//private Emitter.Listener sendRoom;
 	private Emitter.Listener movePlayer;
 	private Emitter.Listener shooting;
 	private Emitter.Listener requestConfig;
@@ -192,11 +192,11 @@ public class Connection {
     	}
 	}
 	
-	public void sendPlayerDeath(Integer playerId) {
+	public void sendPlayerDeath(Integer playerIdDeat) {
     	JSONObject msg = new JSONObject();
     	try {
-            msg.put("playerId",playerId);
-    		mSocket.emit("update_player_death", msg);
+            msg.put("loser",playerIdDeat);
+    		mSocket.emit("end_game", msg);
     	}catch(JSONException e) {
 			e.printStackTrace();
     	}
