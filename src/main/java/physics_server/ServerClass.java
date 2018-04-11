@@ -21,14 +21,14 @@ public class ServerClass {
     private List<Body> asteroidsToRemove;
     private List<Body> shotsToRemove;
 
-    public ServerClass()  {
+    public ServerClass(String room)  {
 
         world = new World(new Vec2(0, 0), true);
 
         // Set null gravity
         world.setGravity(new Vec2(0,0));
 
-        this.conn = new Connection();
+        this.conn = new Connection(room);
         this.ef = new EntityFactory(world,this.conn);
 
         this.asteroidsToRemove = new ArrayList<Body>();

@@ -20,12 +20,14 @@ public class Connection {
 	private Emitter.Listener shooting;
 	private Emitter.Listener requestConfig;
 	private Emitter.Listener onDisconnect;
+	private Emitter.Listener startGame;
 	private BottomPlayerEntity botPlayer;
 	private TopPlayerEntity topPlayer;
+	public Boolean start_game;
 
-	public Connection() {
-		room = "room";
-
+	public Connection(String room) {
+		this.room = room;
+		start_game=false;
 		try {
 	        mSocket = IO.socket(Constants.SERVER_URL);
 	    } catch (URISyntaxException e) {
@@ -34,6 +36,7 @@ public class Connection {
 	      mSocket.on("move_player", movePlayer);
 	      mSocket.on("request_config",requestConfig);
 	      mSocket.on("player_shooting", shooting);
+	      mSocket.on("start_game",startGame);
 	      mSocket.connect();
 
 		JSONObject msg = new JSONObject();
@@ -53,6 +56,13 @@ public class Connection {
 		public void call(final Object... args){
 			System.out.println("Disconnected");
 			mSocket.off();
+		}
+	};
+	}
+	{   startGame = new Emitter.Listener() {
+		public void call(final Object... args){
+			System.out.println("Server ejecution extarted");
+			start_game = true;
 		}
 	};
 	}
