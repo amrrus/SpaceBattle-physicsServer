@@ -42,9 +42,8 @@ public class Connection {
 		JSONObject msg = new JSONObject();
 		try {
 			msg.put("room",room);
-			msg.put("isServer",true);
 			msg.put("config","");
-			mSocket.emit("room", msg);
+			mSocket.emit("join_room_server", msg);
 		}catch(JSONException e) {
 			e.printStackTrace();
 		}
@@ -55,13 +54,15 @@ public class Connection {
 	{   onDisconnect = new Emitter.Listener() {
 		public void call(final Object... args){
 			System.out.println("Disconnected");
+
 			mSocket.off();
-		}
+            System.exit(0);
+        }
 	};
 	}
 	{   startGame = new Emitter.Listener() {
 		public void call(final Object... args){
-			System.out.println("Server ejecution extarted");
+			System.out.println("Server execution started");
 			start_game = true;
 		}
 	};
