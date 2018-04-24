@@ -14,8 +14,6 @@ import java.net.URISyntaxException;
 public class Connection {
 
 	private Socket mSocket;
-	private String room;
-	//private Emitter.Listener sendRoom;
 	private Emitter.Listener movePlayer;
 	private Emitter.Listener shooting;
 	private Emitter.Listener requestConfig;
@@ -26,7 +24,6 @@ public class Connection {
 	public Boolean start_game;
 
 	public Connection(String room) {
-		this.room = room;
 		start_game=false;
 		try {
 	        mSocket = IO.socket(Constants.SERVER_URL);
@@ -42,7 +39,8 @@ public class Connection {
 		JSONObject msg = new JSONObject();
 		try {
 			msg.put("room",room);
-			msg.put("config","");
+			msg.put("config","SHOT_DENSITY:"+Constants.SHOT_DENSITY+","
+					+"SHOT_RADIUS:"+Constants.SHOT_RADIUS);
 			mSocket.emit("join_room_server", msg);
 		}catch(JSONException e) {
 			e.printStackTrace();

@@ -10,9 +10,9 @@ public class Constants {
     public static final float ASTEROID_DENSITY = 10000000000f;
     public static final float ASTEROID_FRICTION = 0f;
     
-    public static final float SHOT_RADIUS = 0.1f;
-    public static final float SHOT_DENSITY = 5f;
-    public static final float SHOT_SPEED = 4f;
+    public static float SHOT_RADIUS = 0.1f; //conf
+    public static float SHOT_DENSITY = 5f; //conf
+    public static float SHOT_SPEED = 4f; 
     public static final float SHOT_FREE_SPACE = 0.0001f;
 
     public static final int WIDTH_SCREEN=1920;
@@ -26,7 +26,7 @@ public class Constants {
     public static final float RADIO_SHIP = 0.5f;
     public static final float DENSITY_SHIP = 1f;
     public static final float FRICTION_SHIP = 0f;
-    public static final float MOVE_VELOCITY = 3f;
+    public static float MOVE_VELOCITY = 3f;
     
     public static final Integer PLAYER_BOTTOM_ID = 0;
     public static final Integer PLAYER_TOP_ID = 1;
@@ -41,9 +41,9 @@ public class Constants {
 	public static final int BIT_WORLD_BORDER= 0x0008;
 	public static final int BIT_FIELD_LIMIT=  0x00F0;
 	
-	public static final float SIZE_EXPLOSION_SHOT_ASTEROID = 0.5f;
-	public static final float SIZE_EXPLOSION_SHOT_PLAYER = 1f;
-	public static final float SIZE_EXPLOSION_ASTEROID_PLAYER = 1.5f;
+	public static float SIZE_EXPLOSION_SHOT_ASTEROID = 0.5f;
+	public static float SIZE_EXPLOSION_SHOT_PLAYER = 1f;
+	public static float SIZE_EXPLOSION_ASTEROID_PLAYER = 1.5f;
 	
 	public static final String USERDATA_TOP_PLAYER = "topPlayer";
 	public static final String USERDATA_BOTTOM_PLAYER = "bottomPlayer";
@@ -52,18 +52,39 @@ public class Constants {
 	public static final String USERDATA_FIELDLIMIT = "fieldLimit";
 	public static final String USERDATA_WORLDBORDER = "worldBorder";
 	
-	public static final Integer INITIAL_PLAYER_LIVES = 3;
-	public static final Integer MAX_NUMBER_SHOTS_STORED = 5; 
-	public static final float TIME_SHOT_REGENERATION_INTERVAL=3;
-	public static final float TIME_BETWEEN_SHOTS = 1;
+	public static Integer INITIAL_PLAYER_LIVES = 3;
+	public static Integer MAX_NUMBER_SHOTS_STORED = 5; 
+	public static float TIME_SHOT_REGENERATION_INTERVAL=3;
+	public static float TIME_BETWEEN_SHOTS = 1;
 	
 	
-	public static final float MAX_ASTEROID_IMPULSE = 3;
-	public static final float MIN_ASTEROID_IMPULSE = 0.5f;
-	public static final float MIN_ASTEROID_RADIUS = 0.2f;
-	public static final float MAX_ASTEROID_RADIUS = 1.5f;
-	public static final float ASTEROID_SPAWN_RADIUS = 1;
-	public static final float ASTEROID_IMPULSE_SHIFT=1;
+	public static float MAX_ASTEROID_IMPULSE = 3;
+	public static float MIN_ASTEROID_IMPULSE = 0.5f;
+	public static float MIN_ASTEROID_RADIUS = 0.2f;
+	public static float MAX_ASTEROID_RADIUS = 1.5f;
+	public static float ASTEROID_SPAWN_RADIUS = 1;
+	public static float ASTEROID_IMPULSE_SHIFT=1;
+	
+	public static String showVars() {
+		return 
+				"SHOT_RADIUS"+" : "+Constants.SHOT_RADIUS+","+
+				"SHOT_SPEED"+" : "+Constants.SHOT_SPEED+","+
+				"SHOT_DENSITY"+" : "+Constants.SHOT_DENSITY+","+
+				"MOVE_VELOCITY"+" : "+Constants.MOVE_VELOCITY+","+
+				"SIZE_EXPLOSION_SHOT_ASTEROID"+" : "+Constants.SIZE_EXPLOSION_SHOT_ASTEROID+","+
+				"SIZE_EXPLOSION_SHOT_PLAYER"+" : "+Constants.SIZE_EXPLOSION_SHOT_PLAYER+","+
+				"SIZE_EXPLOSION_ASTEROID_PLAYER"+" : "+Constants.SIZE_EXPLOSION_ASTEROID_PLAYER+","+
+				"INITIAL_PLAYER_LIVES"+" : "+Constants.INITIAL_PLAYER_LIVES+","+
+				"MAX_NUMBER_SHOTS_STORED"+" : "+Constants.MAX_NUMBER_SHOTS_STORED+","+
+				"TIME_SHOT_REGENERATION_INTERVAL"+" : "+Constants.TIME_SHOT_REGENERATION_INTERVAL+","+
+				"TIME_BETWEEN_SHOTS"+" : "+Constants.TIME_BETWEEN_SHOTS+","+
+				"MAX_ASTEROID_IMPULSE"+" : "+Constants.MAX_ASTEROID_IMPULSE+","+
+				"MIN_ASTEROID_IMPULSE"+" : "+Constants.MIN_ASTEROID_IMPULSE+","+
+				"MIN_ASTEROID_RADIUS"+" : "+Constants.MIN_ASTEROID_RADIUS+","+
+				"MAX_ASTEROID_RADIUS"+" : "+Constants.MAX_ASTEROID_RADIUS+","+
+				"ASTEROID_SPAWN_RADIUS"+" : "+Constants.ASTEROID_SPAWN_RADIUS+","+
+				"ASTEROID_IMPULSE_SHIFT"+" : "+Constants.ASTEROID_IMPULSE_SHIFT	+".";
+	}
 	
 	public static float crs (Vec2 pos,Vec2 ref) {
 		return pos.x * ref.y - pos.y * ref.x;
